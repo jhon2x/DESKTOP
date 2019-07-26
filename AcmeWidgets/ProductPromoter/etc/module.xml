@@ -1,0 +1,10 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Module/etc/module.xsd">
+    <!--
+    setup_version :  is available in the module’s Setup classes to determine what upgrade activities should occur
+    -->
+    <module name="AcmeWidgets_ProductPromoter" setup_version="0.0.2">
+      <sequence> <!-- useful for events, plugins and preferences, -->
+
+      </sequence>
+    </module>
+</config>

@@ -1,0 +1,714 @@
+https://www.youtube.com/watch?v=FpnHvp9x48c&t=167s
+
+00:00
+hey what's up guys Alexia thank you for
+00:01
+checking his video and welcome to the
+00:03
+lesson number five of the series of
+00:05
+tutorial on how to build a wordpress
+00:07
+plugin from scratch
+00:11
+[Music]
+00:19
+welcome again in this tutorial we're
+00:21
+gonna see how to use the unistall hook
+00:25
+that automatically wordpress applies to
+00:27
+whatever plugin in the previous lessons
+00:30
+we saw how to properly use the
+00:32
+activation and deactivation hook and of
+00:34
+course WordPress offers also a unistall
+00:37
+hook that it's trigger only when the
+00:40
+plug-in is deactivated and the user
+00:42
+clicks delete I'm now gonna click delete
+00:45
+now because I don't want to lose
+00:46
+everything but we're gonna test it in
+00:49
+future lessons so you probably already
+00:51
+guessed how to use the unistall hook and
+00:53
+how it's gonna get written basically
+00:55
+it's identical to the activation and
+00:57
+deactivation hook but instead of being
+01:00
+registered the activation hook is simply
+01:03
+register unistall hook and that's pretty
+01:06
+standard also here in this case we can
+01:09
+specify the actual method inside our
+01:12
+class that it's unistall but if we save
+01:15
+this and we check in our backend even
+01:19
+just by activating the plug-in we're
+01:22
+gonna have a PHP error and the PHP error
+01:25
+is that only a static class method or
+01:27
+function can be used by an UHN installed
+01:31
+hook this is a limitation of the
+01:33
+unistall hook that I always find
+01:35
+annoying especially when I'm in an
+01:37
+object-oriented programming situation
+01:39
+you can solve these by declaring these
+01:42
+static method but if you're not
+01:44
+comfortable with obdurate or programming
+01:46
+could be kind of like way over your head
+01:48
+so I'm not gonna use this method but I'm
+01:51
+gonna use a better method that I
+01:54
+consider personally like easier to
+01:56
+understand and easier to manage so
+01:58
+instead of having a unistall hook here
+02:01
+and instead of having a unistall method
+02:04
+here what I want or what we can do
+02:07
+automatically WordPress gives us the
+02:09
+ability to create a unique PHP file that
+02:13
+gets triggered when the user unistall
+02:16
+our plugin and this file has to be
+02:19
+inside our plug-in folder of course and
+02:22
+has to be called unistall dot PHP pretty
+02:26
+straightforward right so inside the
+02:28
+unistall P dot PHP we're gonna first
+02:30
+open the
+02:32
+PHP tags and not closing them as usual
+02:34
+and then here we can specify just a
+02:37
+simple comment if you want just simply
+02:40
+trigger this file on plug-in unistall
+02:45
+something like that if you want you can
+02:47
+repeat the package of your plugin that
+02:51
+in my case should be a like add -
+02:54
+plug-in if I'm not wrong and don't
+02:56
+remember let's go back up text domain
+02:59
+package oh I like a plug-in like the
+03:01
+class ok
+03:02
+let's save it ok perfect so here first
+03:06
+and foremost before writing anything
+03:08
+inside this file we need to do a
+03:10
+security check because we don't want to
+03:12
+accidentally give the user the ability
+03:14
+to trigger this file if is not actually
+03:18
+triggered by WordPress itself during the
+03:21
+Union start light during the DS
+03:22
+installation of our plugin
+03:24
+in order to check and trigger this
+03:27
+unistall dot PHP in the proper way we
+03:30
+need to do a simple condition very
+03:32
+similar to the condition that we're
+03:34
+using in our main file and we can say
+03:37
+that if is not defined a global variable
+03:41
+that were pressed passes to this file
+03:45
+and this global variable is WP
+03:48
+underscore unistall plug-in if this
+03:51
+global variable generate apply WordPress
+03:54
+is not defined that means that someone
+03:56
+is trying to access the unistall dot PHP
+03:59
+not via WordPress not in a proper way so
+04:01
+we can as usual die like we always do
+04:04
+you just destroy the execution don't
+04:07
+continue don't do anything so always
+04:09
+remember if you decide to use the
+04:11
+unistall dot PHP always always use this
+04:14
+security check otherwise people could
+04:17
+users are a developer or accidentally
+04:20
+another plug-in if it's malicious or
+04:22
+something kid check if a unistall dot
+04:24
+PHP can be triggered and that something
+04:26
+really bad could happen because usually
+04:28
+the Uni style dot PHP is used just for
+04:31
+one very very important thing and that's
+04:34
+it to clear database stored data so in
+04:39
+our case because in our plugin
+04:42
+activation we created a custom post type
+04:44
+on the activation
+04:46
+post-op' is not gonna exist anymore but
+04:48
+if the user wrote some books or
+04:51
+something a custom post type or if like
+04:54
+in the future lesson we're gonna see on
+04:56
+activation or generically our plugin
+04:59
+generates some custom administration
+05:01
+options and all those options are
+05:05
+updated by a user so save some custom
+05:09
+data or some custom checkboxes radio
+05:11
+buttons so stuff like that we need to
+05:13
+clear the database from the data if the
+05:16
+user decides to delete our plug-in if he
+05:19
+deletes the plug-in that means it
+05:20
+doesn't care about the data connected to
+05:23
+the plug-in so we need to clear database
+05:25
+we cannot just ignore these and leave
+05:29
+the plug-in just bloating the database
+05:32
+of the user even if the user is not
+05:34
+using our plug-in anymore so in order to
+05:37
+do that we need to use some database
+05:40
+related methods that are really tricky
+05:42
+and really sketchy because you're
+05:44
+actually opening the database and
+05:46
+deleting stuff injecting SQL or just
+05:50
+like triggering SQL commands and if a
+05:53
+user or a malicious developer gains
+05:56
+access to the unistall dot PHP he could
+06:00
+destroy the database of the user without
+06:03
+us knowing it and that's basically all
+06:05
+our fault so let's not do that so now
+06:08
+that we have these what we want to do we
+06:10
+wanna delete what's stored inside our
+06:14
+database in our case the book custom
+06:17
+post type because our plug-in is
+06:18
+generating a custom post type called
+06:20
+book the user is saving some books so
+06:23
+when it deletes the database just delete
+06:25
+everything related to this unique custom
+06:27
+post type to do that we could use or a
+06:30
+built in method of wordpress or SQL
+06:34
+query and we're gonna see both methods
+06:37
+so first we're gonna create a variable
+06:39
+called books and inside here we're gonna --
+06:42
+just get all the posts so we're gonna
+06:45
+use just the get posts parable we don't
+06:47
+need a WP query because we don't need to
+06:49
+print the post or do all post loop we
+06:53
+just need to gather all the post data
+06:55
+inside a variable so let's use get posts
+06:57
+and here we need to pass up
+06:59
+bunch of arguments the first and most
+07:01
+important is the post type so our post
+07:05
+type that we want to gather of course
+07:07
+its book and remember the name has to be
+07:10
+identical to the register post type
+07:13
+unique slug that you decided for your
+07:15
+custom post type then we can specify
+07:17
+number posts and we can say minus 1 when
+07:22
+saying minus 1 we're gonna basically
+07:24
+gather all the posts all together so now
+07:27
+that we have all our custom post types
+07:29
+or all the posts related to their custom
+07:31
+post types inside this variable we can
+07:33
+simply use for each loop of PHP by
+07:38
+saying for each books has book and if
+07:43
+you don't know if you never use the for
+07:44
+each looping PHP basically if you have
+07:47
+an array of arguments the for each is
+07:50
+gonna loop through every single argument
+07:52
+it's gonna store the single argument is
+07:55
+currently looping into inside a custom
+07:58
+variable that we generated here so here
+08:00
+we could also call this variable value
+08:03
+or data whatever you can call this
+08:06
+variable whatever you want because I
+08:08
+have a variable an array called books I
+08:10
+want to store the single value inside a
+08:12
+book variable that makes more sense but
+08:15
+basically for each books that we have in
+08:18
+our get posts method we're gonna trigger
+08:22
+the bill theme method of wordpress WP
+08:24
+delete posts and the WP delete post
+08:29
+accepts two parameter the first is the
+08:32
+post ID in order to access the post ID
+08:34
+we need to call the book that is the
+08:37
+current post that we're looking at and
+08:38
+with the arrow we need to access the ID
+08:41
+because the book is an object and the
+08:43
+second parameter is a boolean and stands
+08:46
+for the force delete so if we save it to
+08:48
+false basically were saying to WordPress
+08:51
+to not delete this post ID if this post
+08:54
+I deeds are ready in the trash if it's
+08:55
+in the trash just leave it like that
+08:57
+instead if we say through just delete
+09:00
+this it doesn't matter if the post is in
+09:01
+draft is in trash is private so it's not
+09:05
+public basically we through we're saying
+09:07
+delete all the posts no matter what's
+09:09
+the status what's the current status of
+09:11
+the post and that's what we
+09:13
+so this is the first matter pretty
+09:15
+straightforward we have books we grab
+09:17
+them with a get post and then we loop
+09:19
+through each post and then we just use a
+09:22
+built in method of WordPress this is
+09:24
+good if we have just the scenario if you
+09:27
+have one custom post type or a custom
+09:30
+taxonomy you need to delete all the data
+09:32
+related to the custom taxonomies
+09:35
+but if we have multiple options or we
+09:39
+know that our custom post type was
+09:41
+bounded with custom meta boxes or custom
+09:45
+taxonomies or custom options and we want
+09:47
+to delete everything at once without
+09:49
+grabbing the post and looping the post
+09:51
+we can use the almighty WP DB then to
+09:57
+use the WP DB we need to call it before
+10:00
+so let's call the global variable of
+10:03
+WordPress dollar WP TV and these WP DP
+10:08
+is really powerful and really dangerous
+10:10
+so be careful when you use it because
+10:12
+these will give you the ability to
+10:14
+trigger an SQL query directly inside a
+10:18
+database so access the database via SQL
+10:23
+if you don't know anything about SQL or
+10:26
+sequel
+10:27
+I don't know however you want to
+10:28
+pronounce it SQL is the language that
+10:32
+you used to interact with the database
+10:34
+and you can do everything with it you
+10:37
+can delete a table delete the entire
+10:39
+database delete one single value loop
+10:42
+dynamically inside all the values and
+10:45
+detect just one ID and delete that so if
+10:47
+you don't know anything about SQL don't
+10:49
+use these methods because it's really
+10:50
+sketchy you could delete everything if
+10:52
+you feel more comfortable with SQL you
+10:54
+don't want to use the for each let's use
+10:56
+SQL and let's see how to use it in order
+10:59
+to trigger an SQL command you need to of
+11:02
+course called the global variable like
+11:05
+we did here and then this is an object
+11:07
+so the WP DB object we need to access
+11:12
+the query method inside this object or
+11:16
+inside this class I guess classes more
+11:19
+accurate you call these a class instead
+11:21
+of an object and the query needs to be
+11:23
+trigger with double quotes always use
+11:26
+double quotes it
+11:27
+better and the query that we're gonna
+11:28
+use is a pretty standard SQL query so
+11:32
+we're gonna say delete from the table
+11:38
+that WordPress uses to store our post
+11:40
+and the table is WP under underscore
+11:43
+posts where the column post type and if
+11:50
+you don't know what I'm talking about
+11:51
+these inside your database you should
+11:53
+have a column called posts type inside
+11:57
+your WP posts where the post type eats
+12:01
+equal to single quotes the name of our
+12:05
+post type book and we can double check
+12:07
+by saying hey the post type yes post
+12:10
+type is book okay let's delete this
+12:12
+that's it basically we one single SQL
+12:16
+query we're doing the same thing that we
+12:19
+were doing here by grabbing all the
+12:21
+custom post type and deleting all the
+12:23
+custom post type I doing a for each loop
+12:25
+this is more disruptive this is more
+12:30
+direct it's faster but it's also more
+12:32
+dangers something else that we could do
+12:34
+if we have post types there are they
+12:38
+were using custom meta options or custom
+12:41
+taxonomy we can still use the WP query
+12:44
+and trigger another query to delete
+12:46
+everything that is not related to a post
+12:49
+that we currently have so let's do again
+12:51
+WP DB let's access the query method and
+12:56
+inside here say we double quote delete
+13:00
+from the WP post meta and the WP post
+13:05
+meta is the database table WordPress
+13:08
+where WordPress stores all the meta
+13:10
+boxes related to post type custom post
+13:14
+type a page and administration are
+13:16
+whatever we can say that delete all the
+13:18
+post meta where the post ID is not in
+13:23
+and here we can open and close the
+13:28
+single bracket and we can do another SQL
+13:31
+query to check and grab all the posts
+13:35
+that we have inside our list the posts
+13:38
+so let's select
+13:39
+the ID from WP underscore posts that is
+13:46
+the oh sorry all lowercase posts that is
+13:49
+the same table here so what are we doing
+13:51
+here what are we doing here is basically
+13:53
+we are selecting the not if but ID sorry
+13:58
+that's a typo we're selecting all the
+14:00
+IDS from the WP posts that currently
+14:04
+because this query comes after the first
+14:06
+one all these posts are not books
+14:09
+anymore like we deleted all the posts
+14:11
+with the post type books so we're gonna
+14:13
+have just IDs from posts there are not
+14:16
+part of our custom post type and we're
+14:19
+gonna say based on these IDs delete all
+14:22
+the WP post metadata that don't match
+14:27
+these ID because the WP post meta it's
+14:30
+connected to the WP post via the post ID
+14:32
+so we're saying if the post ID doesn't
+14:34
+match one of these IDs delete
+14:36
+everything's because that means that
+14:38
+these post meta it's related to a post
+14:41
+that doesn't exist anymore so we are
+14:43
+clearing the database another thing that
+14:45
+we could do we could do exactly the same
+14:47
+but instead of using the post meta or
+14:50
+instead of checking inside the post meta
+14:52
+we can use the WP term underscore
+14:57
+relationships that is another database
+15:00
+table term relationships that matches
+15:03
+the term taxonomy with the object ID
+15:06
+that it's basically the post ID so here
+15:11
+we can say where the object ID is not
+15:15
+into the list of posts that we currently
+15:18
+have so these are basically the basic
+15:21
+thing that you should do if you decide
+15:23
+to delete the custom post type when you
+15:26
+have a generated custom post type but as
+15:28
+I said these two methods work exactly
+15:30
+the same and you could do exactly the
+15:33
+same by getting the taxonomies and all
+15:35
+with your your custom taxonomies or if
+15:37
+you know the ID is a unique identifier
+15:39
+of your post meta you can get those post
+15:42
+meta and with a for each loop delete
+15:44
+them all you can do in both ways so it's
+15:47
+pretty much it for today's lesson I hope
+15:49
+you enjoyed if you did please give it a
+15:50
+thumbs up or subscribe to my channel and
+15:52
+if you want you can spend a couple
+15:53
+minutes on the support me page of my
+15:55
+website where you can find all different
+15:57
+ways and methods to support me support
+15:58
+my channel and help me to do better
+16:00
+videos and better tutorials for you
+16:02
+thank you again guys and until the next
+16:04
+lesson as usual happy coding

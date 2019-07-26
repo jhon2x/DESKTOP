@@ -1,0 +1,53 @@
+Magento\Framework\App\Http;
+method: launch()
+  - $areaCode = $this->_areaList->getCodeByFrontName($this->_request->getFrontName());
+    if($areaCode == 'frontend'){
+      go to frontend
+    } else {
+      go to backend
+    }
+
+https://devdocs.magento.com/guides/v2.3/extension-dev-guide/build/di-xml-file.html
+area of di.xml
+    - initial
+    - global
+    - specific
+    - configure you class argument
+
+https://devdocs.magento.com/guides/v2.3/config-guide/bootstrap/magento-bootstrap.html
+BOOTSTRAPPING
+    - index.php
+      - app/bootstrap.php - which performs essential initialization routines.
+                          - handles
+                              * error handling (Autoload error),
+                              * initializing autoloader
+                              * setting the default timezone, and so on.
+
+
+
+VIRTUAL types
+https://magento.stackexchange.com/questions/33103/what-is-the-difference-between-type-and-virtualtype
+
+
+
+
+//magento 2 demo
+http://magento2demo.firebearstudio.com/
+http://magento2demo.firebearstudio.com/index.php/admin/
+Login: demo
+Password: 1q2w3e4r5t
+
+2 types of promotions in magento ?
+1. catalog price rules
+2. cart price rules
+
+// 5 Ecommerce Promotion Ideas and Special Offers That Drive Traffic, Increase Revenue and Build Loyalty
+- https://www.outerboxdesign.com/web-design-articles/Ecommerce-Promotion-Sale-Ideas
+
+
+//Magento 2: Add a Custom Field to Checkout Shipping Address
+- http://techjeffyu.com/blog/magento-2-add-a-custom-field-to-checkout-shipping
+
+
+//boilerplate code ?
+- is any seemingly repetitive code that shows up again and again in order to get some result that seems like it ought to be much simpler.

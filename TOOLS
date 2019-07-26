@@ -1,0 +1,12 @@
+// Install Atom Text Editor in Ubuntu 16.04 (both 32&64bit)
+http://tipsonubuntu.com/2016/08/05/install-atom-text-editor-ubuntu-16-04/
+
+
+1. Add PPA
+	- sudo add-apt-repository ppa:webupd8team/atom
+
+2. Update and install Atom editor:
+	- sudo apt update; sudo apt install atom
+
+3. (Optional) To remove Atom text editor
+	- sudo apt remove --purge atom

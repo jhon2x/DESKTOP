@@ -1,0 +1,209 @@
+Magento 2 on Digital Ocean using Composer - Ubuntu 16.04 (Part-1, Server setup)
+https://youtu.be/jqcSB75FiEo
+
+1. login to DIGITAL OCEAN
+2. create droplets
+3. choose an image
+	- Ubuntu 16.04.3x64
+4. choose a size
+	- $20/mo $0.030/hour
+5. choose a datacenter region
+	- New york, San francisco, singapore
+6. click create button to create droplets
+	- ipaddress: 198.199.92.18
+
+7. login to your email and checks the credential sent by digital ocean
+	your new Droplet is all set go! You can access it using the following credentials:
+	Droplet Name: ubuntu-2gb-sfo-1-01
+	IP Address:192.199.92.18
+	Password:xxxxxxxxxxxxxxxx
+
+8. open terminal access server via ssh
+	- ssh root@192.199.92.18
+	- Hit Enter
+
+9. Enter new UNIX password:
+   Retype new UNIX password:
+
+10. do the following in terminal
+	- sudo apt-get update
+
+	INSTALLING APACHE
+	- sudo apt-get install apache2
+	- sudo nano /etc/apache2/sites-available/000-default.conf
+	- under DocumentRoot /var/www/html add
+		<Directoy "/var/www/html">
+			AllowOverride All
+		</Directory>
+	- apache2ctl configtest - checks if where is the error
+	- sudo a2enmod rewrite
+	- sudo systemctl restart apache2
+
+	INSTALLING MYSQL
+	- sudo apt-get install mysql-server
+		when UI prompted add password
+
+	INSTALLING PHP
+	- sudo apt-get install php libapache2-mod-php php-mcrypt php-mysql -y
+	- sudo nano  /etc/apache2/mods-enabled/dir.conf
+		move index.php in the beginning
+		<IfModule mode_dir>
+			DirectoryIndex index.php
+		</IfModule mode_dir>
+	- sudo apt-get install php-common php-cli php-curl php-intl php-zip -y
+	- sudo apt-get install php-soap
+	- sudo systemctl restart apache2
+	- sudo apt-get install phpmyadmin
+		if asking [Y/n] n read the description carefully if why answered is n
+	- sudo apt-get install phpmyadmin php-mbstring php-gettext -y
+		- when GUI is prompted choose ok
+		- add password
+	- sudo nano /etc/apache2/apache2.conf
+		add at the end of the line : Include /etc/phpmyadmin/apache.conf
+	- sudo systemctl restart apache2
+
+
+	INSTALL PHP 7.2
+	- https://www.rosehosting.com/blog/how-to-install-php-7-2-on-ubuntu-16-04/#Step-4-Install-PHP-72
+	- sudo apt-get install php7.2 php7.2-cli php7.2-common
+	- sudo apt search php7.2 - If you want to install a specific PHP 7.2 extension, you can search if it is available using the following command:
+	- sudo apt-get install php7.2-curl php7.2-gd php7.2-json php7.2-mbstring php7.2-intl php7.2-mysql php7.2-xml php7.2-zip php7.2-bcmath php7.2-soap
+	- sudo apt-get install php7.2-bcmath php7.2-soap
+	- sudo apt-get install php7.2-mbstring
+
+
+Magento 2 on Digital Ocean using Composer - Ubuntu 16.04 (Part-2, Database and Magento)
+https://youtu.be/8vV-dqt1zko
+1. Install composer
+	- sudo curl -sS https://getcomposer.org/installer | php
+ 	- sudo mv composer.phar /usr/local/bin/composer
+	- pwd
+		/root
+	- cd /var/www/html
+	- ls
+	- rm index.html
+	- ls
+	- ls -a
+		. ..
+	- test composer
+		composer
+	- download magento2
+		composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition .
+
+	- to remove secure permission
+		chown -R www-data .
+	- if not ok try run this to setup all permission correctly
+		https://devdocs.magento.com/guides/v2.3/install-gde/prereq/file-system-perms.html
+
+		// use this for save issue with permission 100% worked
+		sudo find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} + && sudo find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} + && sudo chown -R www-data . && sudo chmod u+x bin/magento
+		sudo chown -R john:www-data .
+
+		or
+		find . -type d -exec chmod 755 {} \; && find . -type f -exec chmod 644 {} \; && chmod u+x bin/magento
+
+
+		// old permission from devbox-linux 
+		// to return to this default permission use: chown -R www-data .
+		
+		drwxrwxrwx 15 www-data www-data   4096 Jul 24 23:01 .
+		drwxrwxr-x  7 john     john       4096 Jul 25 09:40 ..
+		drwxrwxrwx  4 www-data www-data   4096 Jul 25 09:18 app
+		-rwxrwxrwx  1 www-data www-data    234 Jul 24 22:34 auth.json.sample
+		drwxrwxrwx  2 www-data www-data   4096 Jul 24 22:34 bin
+		-rwxrwxrwx  1 www-data www-data 434981 Jul 24 22:34 CHANGELOG.md
+		-rwxrwxrwx  1 www-data www-data   2245 Jul 24 22:34 composer.json
+		-rwxrwxrwx  1 www-data www-data 839601 Jul 24 22:34 composer.lock
+		-rwxrwxrwx  1 www-data www-data    650 Jul 24 22:34 COPYING.txt
+		-rwxrwxrwx  1 www-data www-data    399 Jul 25 09:50 crontab.sample
+		drwxrwxrwx  5 www-data www-data   4096 Jul 24 22:34 dev
+		drwxrwxrwx  3 www-data www-data   4096 Jul 25 09:50 generated
+		drwxrwxrwx  8 www-data www-data   4096 Jul 24 22:46 .git
+		drwxrwxrwx  3 www-data www-data   4096 Jul 24 22:34 .github
+		-rwxrwxrwx  1 www-data www-data   1366 Jul 24 22:34 .gitignore
+		-rwxrwxrwx  1 www-data www-data     57 Jul 24 22:34 grunt-config.json.sample
+		-rwxrwxrwx  1 www-data www-data   2994 Jul 24 22:34 Gruntfile.js.sample
+		-rwxrwxrwx  1 www-data www-data  12076 Jul 24 22:34 .htaccess
+		-rwxrwxrwx  1 www-data www-data  11600 Jul 24 22:34 .htaccess.sample
+		-rwxrwxrwx  1 www-data www-data   1370 Jul 24 22:34 index.php
+		drwxrwxrwx  4 www-data www-data   4096 Jul 24 22:34 lib
+		-rwxrwxrwx  1 www-data www-data  10376 Jul 24 22:34 LICENSE_AFL.txt
+		-rwxrwxrwx  1 www-data www-data  30634 Jul 24 22:34 LICENSE_EE.txt
+		-rwxrwxrwx  1 www-data www-data  10364 Jul 24 22:34 LICENSE.txt
+		-rwxrwxrwx  1 www-data www-data   5625 Jul 24 22:34 nginx.conf.sample
+		-rwxrwxrwx  1 www-data www-data   1416 Jul 24 22:34 package.json.sample
+		-rwxrwxrwx  1 www-data www-data   1654 Jul 24 22:34 .php_cs.dist
+		drwxrwxrwx  2 www-data www-data   4096 Jul 24 22:34 phpserver
+		drwxrwxrwx  6 www-data www-data   4096 Jul 24 22:34 pub
+		-rwxrwxrwx  1 www-data www-data   2657 Jul 24 22:34 README_EE.md
+		drwxrwxrwx  7 www-data www-data   4096 Jul 24 22:34 setup
+		-rwxrwxrwx  1 www-data www-data   2095 Jul 24 22:34 .travis.yml
+		drwxrwxrwx  6 www-data www-data   4096 Jul 24 22:34 update
+		-rwxrwxrwx  1 www-data www-data    101 Jul 24 22:34 .user.ini
+		drwxrwxrwx  8 www-data www-data   4096 Jul 25 09:50 var
+		drwxrwxrwx 76 www-data www-data   4096 Jul 24 22:46 vendor
+
+
+
+	- add sample datacenter
+		php bin/magento sampldata:deploy
+		repo.magento.composer
+		pkey: f0d2cce42e3f83b0cfe060a4fd34ef91
+		pprivate: d44a50559ae8d6787b2551a799d5751c
+
+	- enable sampledata modules
+		php bin/magento setup:upgradeclear
+
+
+
+	- I read that Fast-CGI requires different permissions (755,644), than those that Magento uses by default (775,660).
+
+	You can try changing all permissions by using following command
+
+	find . -type d -exec chmod 755 {} \; && find . -type f -exec chmod 644 {} \;	
+
+
+setup varnish
+	- ip
+		192.168.254.102
+		www.technotrends-lb.local
+
+	 hostname; hostname -I; lsb_release -a; ufw status
+
+
+// disabled all custom modules from app/code
+https://magento.stackexchange.com/questions/191334/how-to-disable-all-extensions-by-a-vendor/191344#191344
+
+- php bin/magento module:status | grep -v Magento | grep -v List | grep -v None | grep -v -e '^$'| xargs php bin/magento module:disable
+
+
+
+// setup 
+
+->addIndex(
+	$setup->getIdxName($tableName, ['column'],AdapterInterface::INDEX_TYPE_UNIQUE),
+	['column'],
+	['type'=>AdapterInterface::INDEX_TYPE_UNIQUE]
+
+)
+->addForeignKey(
+	$setup->getFkName(
+			$tableName, 'fk', 'parent_tb', 'pk'
+		),
+	'fk',
+	$setup->getTable('parent_tb'),
+	'pk',
+	Table::ACTION_CASCADE
+)	
+
+
+// Content > Design >Config shows no records on fresh 2.1.3 install
+https://magento.stackexchange.com/questions/153234/content-design-config-shows-no-records-on-fresh-2-1-3-install
+  Answer:
+	- A better way to fix this is to run the reindexer command:
+
+	- bin/magento indexer:reindex design_config_grid
+
+	This will update the design_config_grid_flat with the correct values for your site. If you get a message that the index is locked you may need to reset it with:
+
+    - bin/magento indexer:reset design_config_grid

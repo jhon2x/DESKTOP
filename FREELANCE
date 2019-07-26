@@ -1,0 +1,96 @@
+task
+2,3,4 done (start: 5:13PM  - 8:30PM)
+TASK 5 - start 1:20PM - 3:35PM		
+
+
+FTP
+Login: jhon2x
+Domain: mall-e.net
+Password: 8d.#~LDtb.ZC
+
+FTP Username: jhon2x@mall-e.net
+FTP server: ftp.mall-e.net
+FTP & explicit FTPS port:  21
+
+end ftp
+
+https://thesyringe.com/
+http://ihired.sg/
+
+https://admin.mall-e.net
+user: charltonmendes@gmail.com
+pass: 123456
+
+cpanel
+http://mall-e.net/cpanel
+User : malle
+pass : foxtech2608
+
+
+Base URL
+https://api.mall-e.net/api/
+
+@GET("show_mt_mall/{mt_id}")
+@GET("countries")
+@GET("merchants")
+@GET("view_merchant_plus")
+@GET("show_merchant_type/{merchant_id}")
+@GET("subCategories")
+@GET("subCategoriesNoMall")
+@GET("malls")
+@GET("all_merchant")
+@GET("show_merchant_type_plus/{merchant_id}")
+@GET("events")
+@GET("promo_category")
+@GET("promo_category_plus")
+@GET("promo_outlets")
+@GET("promo_master")
+@GET("promo_outlets_plus")
+@GET("parkings")
+@GET("parkings_plus")
+@GET("offers")
+@GET("offers_plus")
+@GET("merchant_type")
+@GET("merchant_type_plus")
+
+@POST("createMerchant")
+@POST("saveShopper")
+@POST("validate-email")
+@POST("validate-otp")
+@POST("savePreRedeem")
+
+bugs
+1. Server unable to read htaccess file, denying access to be safe
+	- sudo chmod -R 755 <site_top_folder>
+
+	//admin
+	edit_merchant_promo_view.php
+		po_id changed to promo_id
+
+	MerchantModel
+		po_id changed to promo_id
+
+	promotions_tags table
+		po_id changed to promo_id
+
+	TABLE
+merchant_promo_image promo_id.fk
+	> promotions_master promo_id.pk
+		> promotions_tags promo_id.fk tag_id.fk
+			> 	tags_master tag_id.pk
+
+
+
+
+SLQ ERRORS
+
+1. groupby on model codeiginiter not working on mysql -> 1055 - Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column ?
+	- 	answer
+	https://stackoverflow.com/questions/40881773/how-to-turn-on-off-mysql-strict-mode-in-localhost-xampp
+	- SHOW VARIABLES LIKE 'sql_mode';
+	- set global sql_mode='';
+	- set global sql_mode='STRICT_TRANS_TABLES';
+
+
+promotions_outlets
+	mall_id > image	

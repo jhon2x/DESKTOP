@@ -1,0 +1,28 @@
+https://www.youtube.com/watch?v=R0teaKT7DwI
+How to configure the Braintree payment method in Magento 2
+1. Braintree accept cards
+    - credit
+    - debit
+    - PayPal
+
+
+// ************** BRAINTREE
+https://sandbox.braintreegateway.com/activate/5ef9638aea81d70e81df3bc4fde911612aa34d5a?utm_campaign=welcome_email&utm_medium=email&utm_source=welcome_email
+Fulname: Techno trends
+USERNAME: Techno
+email: shoptechnotrends01@gmail.com
+pasword: Internal123_business
+
+// Sandbox Keys & Configuration
+Here are the keys to your Sandbox Account. Once you're ready to start taking payments with a production Braintree Account you'll have to update your code, replacing these with your production Braintree Account keys.
+https://sandbox.braintreegateway.com/merchants/t6gv8jrs2v2tc4dn/home
+Merchant ID:    t6gv8jrs2v2tc4dn
+Public Key:     6bnzqgg8xwp64496
+Private Key:    4535aca3983e8d3ca3308d4109aeadba
+
+
+Use the information following:
+Visa Card Information
+Number Card: 4111111111111111
+Expired: 12/2020
+CVV: 123

@@ -1,0 +1,1050 @@
+song
+https://www.youtube.com/watch?v=6Ejga4kJUts
+
+https://www.youtube.com/watch?v=Cn8iZ35sjCY
+step:
+1.install apache2
+	- apache2 -v - check version
+	- sudo apt-get install apache2 : check the computer>var>www>html folder
+	then
+	- sudo service apache2 stop : to stop apache
+	- sudo service apache2 start : to start apache
+	- sudo chmod -R 777 /var/www/html/
+2.install php7
+	- sudo service apache2 restart
+	- sudo apt install libapache2-mod-php : without this php file not worked
+3.install mysql
+	- sudo apt-get install mysql-server mysql-client
+	- mysql password: ujohn1234
+	- mysql -u root -p Enter password: ujohn1234
+	- \q : to quit mysql
+4.install phpmyadmin
+	- sudo apt-get install phpmyadmin
+	- press space button then tab and Enter
+
+
+INSTALL NGINX
+1. sudo apt-get install nginx
+	- note if apache is open stop it to avoid errors. sudo service apache2 stop
+2. sudo apt-get install php-frm phpmysql
+	- sudo vim /etc/php/7.0/fpm/php.ini - enable cgi.fix_pathinfo=1
+3. sudo service php7.0-fpm restart
+	- sudo vim /etc/nginx/sites-available/default.conf - add index.php to index index.php index.html index.htm index.nginx-debian.html;
+	- enable
+	location ~ \.php$ {
+		include snippets/fastcgi-php.conf;
+	#
+	#	# With php7.0-cgi alone:
+	#	fastcgi_pass 127.0.0.1:9000;
+	#	# With php7.0-fpm:
+		fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+	}
+
+	then enable
+	location ~ /\.ht {
+		deny all;
+	}
+
+	save :wq
+4. sudo service nginx restart
+5. sudo service nginx reload
+6. sudo service nginx status
+
+How to remove MySQL package completely on Ubuntu 16.04
+https://www.youtube.com/watch?v=sYO9MKmI9Nk
+1. systemctl stop mysql
+2. sudo systemctl stop nginx.service
+
+
+Remove PHP 7.0 to 7.2
+https://www.youtube.com/watch?v=EHIpe8JpIiU
+1. ifconfig to get IP address
+2. sudo -i
+3. add-apt-repository ppa:ondrej/php
+4. apt-get update
+5. apt-get purge php7.0 php7.0-common - Remove php 7.0
+6. apt-get install php7.2-curlphp7.2-xml php7.2-zip php7.2-gd php7.2-mysql php7.2-mbstring
+
+//check installed phps
+cd /etc/php
+ls
+7.0  7.2  7.3
+
+https://tecadmin.net/install-php-7-on-ubuntu/
+sudo apt-cache search php7*
+
+Switch from PHP 7.2 to 7.1 on Ubuntu 16.04, Apache
+https://serverfault.com/questions/895746/switch-from-php-7-2-to-7-1-on-ubuntu-16-04-apache
+sudo add-apt-repository ppa:ondrej/php
+sudo apt-get update
+- change to version you want eg: 7.2 : sudo apt-get install php7.1
+- change to version you want eg: 7.2 : sudo apt-get install php7.1-cli php7.1-common php7.1-json php7.1-opcache php7.1-mysql php7.1-mbstring php7.1-mcrypt php7.1-zip php7.1-fpm
+sudo a2dismod php7.2
+sudo
+mod php7.1
+sudo service apache2 restart
+
+// change terminal (cli) version (7.2 to 7.1)
+sudo update-alternatives --set php /usr/bin/php7.1
+
+How to Install PHP 7.2 on Ubuntu 16.04
+https://www.rosehosting.com/blog/how-to-install-php-7-2-on-ubuntu-16-04/
+
+How to Switch between Multiple PHP Version on Ubuntu
+https://tecadmin.net/switch-between-multiple-php-version-on-ubuntu/
+
+
+--------------------------------- VETSHOP AUSTRALIA SERVER ---------------------------------
+root@stage:~# ls -al
+total 36
+drwx------  5 root root 4096 Apr 25  2016 .
+drwxr-xr-x 24 root root 4096 May  3 06:32 ..
+-rw-------  1 root root  102 Apr 25  2016 .bash_history
+-rw-r--r--  1 root root 3106 Oct 22  2015 .bashrc
+drwx------  2 root root 4096 Apr 25  2016 .cache
+drwxr-xr-x  2 root root 4096 Apr 25  2016 .nano
+-rw-r--r--  1 root root  148 Aug 17  2015 .profile
+drwx------  2 root root 4096 Apr 25  2016 .ssh
+-rw-------  1 root root  859 Apr 25  2016 .viminfo
+root@stage:~#
+
+CENTOS
+[root@stage /]# cat /etc/os-release
+NAME="CentOS Linux"
+VERSION="7 (Core)"
+ID="centos"
+ID_LIKE="rhel fedora"
+VERSION_ID="7"
+PRETTY_NAME="CentOS Linux 7 (Core)"
+ANSI_COLOR="0;31"
+CPE_NAME="cpe:/o:centos:centos:7"
+HOME_URL="https://www.centos.org/"
+BUG_REPORT_URL="https://bugs.centos.org/"
+
+CENTOS_MANTISBT_PROJECT="CentOS-7"
+CENTOS_MANTISBT_PROJECT_VERSION="7"
+REDHAT_SUPPORT_PRODUCT="centos"
+REDHAT_SUPPORT_PRODUCT_VERSION="7"
+-------------------------------------------------------------------------------------------
+
+root@uJohn:~# ls -al
+total 24
+drwx------  3 root root 4096 May  4 18:42 .
+drwxr-xr-x 24 root root 4096 May  4 14:19 ..
+-rw-------  1 root root   33 May  4 18:42 .bash_history
+-rw-r--r--  1 root root 3106 Oct 23  2015 .bashrc
+drwx------  3 root root 4096 May  4 14:26 .cache
+-rw-r--r--  1 root root  148 Aug 17  2015 .profile
+
+UBUNTU 16.04 LTS
+root@uJohn:~# cat /etc/os-release
+NAME="Ubuntu"
+VERSION="16.04.6 LTS (Xenial Xerus)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 16.04.6 LTS"
+VERSION_ID="16.04"
+HOME_URL="http://www.ubuntu.com/"
+SUPPORT_URL="http://help.ubuntu.com/"
+BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
+VERSION_CODENAME=xenial
+UBUNTU_CODENAME=xenial
+-------------------------------------------------------------------------------------------
+
+https://websiteforstudents.com/install-magento-2-using-composer-on-ubuntu-16-04-18-04-with-apache2-mariadb-and-php-7-1-support/
+INSTALL MAGENTO UNDER Ubuntu 16.04 LTS
+Under MySQL
+- create database magento231;
+- create user magento231@localhost identified by 'magento231';
+- grant all on magento231.* to magento231@localhost;
+- flush privileges;
+
+Add to gedit /etc/apache2/sites-available/000-default.conf
+<Directory /var/www/html/>
+	Options Indexes FollowSymLinks MultiViews
+	AllowOverride All
+	Order allow,deny
+	allow from all
+</Directory>
+
+apache2ctl configtest
+service apache2 restart
+
+use this if you have already Magento231 tar or zip on your desktop
+ls - to path in desktop
+tar xvzf Magento2.3.1.tar.gz -C /var/www/html/
+apt install composer - install composer
+
+To get Magento 2 latest release you may want to use Github repository… Install Composer, Curl and other dependencies to get started…
+sudo apt install curl git
+curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
+
+Install and Use PHP Composer on Ubuntu 16.04
+https://www.ionos.com/community/hosting/php/install-and-use-php-composer-on-ubuntu-1604/
+sudo apt-get update
+sudo apt-get install curl
+sudo curl -s https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/local/bin/composer
+composer
+
+cd /var/www/html/
+sudo composer create-project --repository=https://repo.magento.com/ magento/project-community-edition magentocc231 - recommended
+
+repo.magento.com
+pkey: f0d2cce42e3f83b0cfe060a4fd34ef91
+private: d44a50559ae8d6787b2551a799d5751c
+
+sometimes other extensions not configured yet
+instal bcmath extension if missing
+sudo apt install php7.2-bcmath
+
+Try this to enable php-curl
+sudo apt-get install php7.0-curl
+
+How can I check whether the server is able to handle SOAP requests
+From SSH you can run:
+php -i | grep Soap
+
+cd /var/www/html/magentocc231
+php bin/magento setup:install --base-url=http://localhost/magento/ --db-host=localhost --db-name=technotrends_db --db-user=root --db-password=ujohn1234 --admin-firstname=John --admin-lastname=Junsay --admin-email=junsayjohn4@gmail.com --admin-user=John --admin-password=Internal123 --language=en_US --currency=USD --timezone=America/Chicago --use-rewrites=1
+
+Then run the commands below to set the correct permissions for Magento 2 to function. --recomemnded
+sudo chown -R www-data:www-data /var/www/html/magentocc231/
+sudo chmod -R 755 /var/www/html/magentocc231/
+
+remove folder permission eg: you can create folder uisng mkdir() function
+chown -R www-data:www-data /var/www/html/magentocc231/
+chmod -R g+rw /var/www/html/magentocc231
+
+sudo nano /etc/apache2/sites-available/magentocc231.conf
+or
+gedit /etc/apache2/sites-available/magentocc231.conf
+paste this
+<VirtualHost *:80>
+     ServerAdmin admin@magentocc231.dev
+     DocumentRoot /var/www/html/magentocc231/
+     ServerName magentocc231.dev
+     ServerAlias www.magentocc231.dev
+
+     <Directory /var/www/html/magentocc231/>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Order allow,deny
+        allow from all
+     </Directory>
+
+     ErrorLog ${APACHE_LOG_DIR}/error.log
+     CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+sudo a2ensite magentocc231.conf
+sudo a2enmod rewrite
+sudo systemctl restart apache2.service
+
+installing sublime, http://tipsonubuntu.com/2017/05/30/install-sublime-text-3-ubuntu-16-04-official-way/
+sudo apt-get update
+sudo apt-get install sublime-text
+
+error during sublime text installation or any other apps that you'll need to use
+E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable)
+E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it?
+
+dpkg: error dpkg status database is locked by another process
+https://www.youtube.com/watch?v=gRlvHw0AmnU
+then delete lock file from var/lib/dpkg/lock
+
+You do not have the permissions necessary to open the file.
+https://www.youtube.com/watch?v=dqGRGKqrOoQ
+gksudo nautilus
+
+
+phpmyadmin error
+phpmyadmin - count(): Parameter must be an array or an object that implements Countable
+- sudo sed -i "s/|\s*\((count(\$analyzed_sql_results\['select_expr'\]\)/| (\1)/g" /usr/share/phpmyadmin/libraries/sql.lib.php
+
+- removing asking passwrod when saving file on sublimetext
+https://askubuntu.com/questions/628862/sublime-text-3-authentication-question-when-saving-document
+sudo chmod 775 -R /var/www/html/magentocc231/
+sudo chown username -R /var/www/html/magentocc231/
+
+gedit /etc/php/7.2/apache2/php.ini
+
+
+access your external hd
+https://www.youtube.com/watch?v=sCK-Pw6kbtc
+1. sudo fdisk -l
+
+2. Device     Boot Start        End    Sectors   Size Id Type
+/dev/sdb1  *     2048 1953521663 1953519616 931.5G  7 HPFS/NTFS/exFAT
+ 	mnt: is the name of your folder under computer
+ 	type: sudo mount /dev/sdb1 /mnt
+
+3. if showed: mount: unknown filesystem type 'exfat'
+	type: sudo apt-get install exfat-fuse exfat-utils
+
+How To install Magento 2 With Varnish and Apache Web Server on Ubuntu 16.04
+1. 	john@uJohn:~$ hostname ; hostname -I ; lsb_release -a ; ufw status
+	uJohn
+	192.168.254.103
+	No LSB modules are available.
+	Distributor ID:	Ubuntu
+	Description:	Ubuntu 16.04.6 LTS
+	Release:	16.04
+	Codename:	xenial
+	ERROR: You need to be root to run this script
+	john@uJohn:~$
+
+
+2. run as root
+	sudo -i
+3. sudo apt-get update
+4. sudo apt-get install varnish
+5. varnishd -v
+6. varnishd -V - different -v to -V
+7. gedit /etc/php/7.2/apache2/php.ini - edit to zlib.output_compression = On
+8. max_execution_time = 15000
+9. Under MySQL
+	- create database magento231;
+	- create user magento231@localhost identified by 'magento231';
+	- grant all on magento231.* to magento231@localhost;
+10. ls - to find the magento.zip file
+11. mkdir /var/www/html/Magento-CE-2.3.1/
+12. unzip Magento-CE-2.3.1_sample_data-2019-03-18-06-46-56.zip -d /var/www/html/Magento-CE-2.3.1/
+13. chown -R www-data:www-data /var/www/html/Magento-CE-2.3.1/ ; chmod -R 777  /var/www/html/Magento-CE-2.3.1/
+14. composer install
+15. sudo nano /etc/apache2/sites-available/Magento-CE-2.3.1.conf
+<VirtualHost *:8080>
+	     ServerAdmin admin@192.168.254.103.local
+	     DocumentRoot /var/www/html/Magento-CE-2.3.1/
+	     ServerName 192.168.254.103
+	     ServerAlias www.magento-CE-2.3.1.local
+
+	     <Directory /var/www/html/Magento-CE-2.3.1/>
+		Options FollowSymLinks
+		AllowOverride All
+		Order allow,deny
+		allow from all
+	     </Directory>
+
+	     ErrorLog ${APACHE_LOG_DIR}/error.log
+    	     CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+
+
+16. apache2ctl configtest
+17.a2ensite Magento-CE-2.3.1 ; a2enmod rewrite
+18. gedit /etc/apache2/ports.conf &>/dev/null
+    gksudo gedit /etc/apache2/ports.conf &>/dev/null
+
+19. systemctl restart apache2
+20. error
+	Job for apache2.service failed because the control process exited with error code. See "systemctl status apache2.service" and "journalctl -xe" for details.
+
+	Maybe this will help to find the cause:
+	- journalctl | tail
+
+
+error Not Found, website is not working
+The requested URL /beltechnology/login was not found on this server.
+to fix
+	- gedit /etc/apache2/apache2.conf
+		<Directory /var/www/html/>
+			AllowOverride All
+		</Directory>
+	- sudo systemctl restart apache2.service
+
+
+CCleaner Alternative For Ubuntu 16.04
+sudo add-apt-repository ppa:gerardpuig/ppa
+sudo apt-get update && sudo apt-get install ubuntu-cleaner
+
+
+install webmin
+https://www.youtube.com/watch?v=dAO1QILCrF4
+1.nano /etc/apt/sources.list
+2. add at the bottoom
+	#webmin
+	deb http://download.webmin.com/download/repository sarge contrib
+	deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib
+3. wget http://www.webmin.com/jcameron-key.asc
+4. apt-key add jcameron-key.asc
+5.apt-get update
+6. apt-get install webmin
+7. ufw allow 10000
+9. ufw allow 80
+10: go to https://192.168.254.103:10000/
+	- user: John
+	- pass: Internal1234
+
+
+Varnish
+https://www.youtube.com/watch?v=tYAOeS88qTQ
+gedit /etc/apache2/ports.conf &>/dev/null
+1. systemctl restart apache2
+2. apt-get install varnish -y
+ gedit /etc/default/varnish &>/dev/null
+ gedit /etc/varnish/default.vcl &>/dev/null
+
+3. systemctl restart apache2.service;systemctl restart varnish.service - restart varnish
+4. gedit /lib/systemd/system/varnish.service &>/dev/null
+5. systemctl daemon-reload ; systemctl restart apache2.service ; systemctl restart varnish.service
+
+
+
+An IDE For PHP: Install PhpStorm on Ubuntu 16.04, 17.04
+https://www.linuxbabe.com/desktop-linux/install-phpstorm-ubuntu-15-10
+
+install oracle
+sudo apt-add-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer
+
+
+webmin, Error – Access Denied For {IP Address}. The Host Has Been Blocked Because Of Too Many Authentication Failures.
+http://www.vps2.me/error-access-denied-for-ip-address-the-host-has-been-blocked-because-of-too-many-authentication-failures/
+
+pass: Internal1234_applicant
+
+
+change resolution
+- sudo vi /etc/default/grub
+- chnage GRUB_CMDLINE_LINUX_DEFAULT="quiet splash" to GRUB_CMDLINE_LINUX_DEFAULT="quiet splash video=hyperv fb:1280x720"
+- sudo update-grub
+- sudo reboot
+
+
+
+install postgresql
+https://tecadmin.net/install-postgresql-server-on-ubuntu/
+https://www.youtube.com/watch?v=-LwI4HMR_Eg --recomended
+https://www.youtube.com/watch?v=jNIdcrQsfYo
+- service postgresql - to see command
+- service postgresql status - PID 6062
+- sudo su postgres - user
+- old pass: psql, new pass: ujohn1234
+- postgres@uJohn:/root$ - succes loggedin
+- psql - will show postgres=#
+- type: \l - to see default databases
+- type: \du - to see lists of user
+- postgres-# ALTER USER postgres WITH PASSWORD 'ujohn1234'; - to change the password
+- postgres-# CREATE USER john_1 WITH PASSWORD 'ujohn1234';
+- postgres-# ALTER USER john_1 WITH SUPERUSER;
+- postgres-# DROP USER john_2; - remove User
+
+
+ubuntu 16.04 install phpPgAdmin
+How to install PostgreSQL and phpPgAdmin in Ubuntu
+- apt-get install postgresql postgresql-contrib phppgadmin
+- su - postgres
+- cd /etc/apache2/conf-available/
+- systemctl restart postgresql - restart postgre
+- systemctl restart apache2
+
+error when accessing http://192.168.254.103/phppgadmin/
+Your PHP installation does not support PostgreSQL. You need to recompile PHP using the --with-pgsql configure option.
+- answer
+	https://medium.com/@manivannan_data/your-php-installation-does-not-support-postgresql-5fdc913fb136
+
+
+
+ubuntu postgresql how to create database
+Postgresql tutorial 001:create database,schema,Insert,delete,drop,truncate
+https://www.youtube.com/watch?v=jNIdcrQsfYo
+sudo su - postgres
+postgres=# \c react; -connect to the database
+
+
+how to be a good programmer
+https://youtu.be/M9C-_s3HQl8
+
+programming knowledge
+https://www.youtube.com/channel/UCs6nmQViDpUw0nuIx9c_WvA
+
+
+Linux Tutorial for Beginners - 8 - File Permissions
+https://www.youtube.com/watch?v=BmVmJi5dR9c
+
+https://www.youtube.com/watch?v=zRw0SKaXSfI
+create a USER
+1. sudo adduser john_1
+2. [sudo] password for john:
+Adding user `john_1' ...
+Adding new group `john_1' (1001) ...
+Adding new user `john_1' (1001) with group `john_1' ...
+Creating home directory `/home/john_1' ...
+Copying files from `/etc/skel' ...
+Enter new UNIX password:
+
+USER
+
+delete USER
+1. sudo userdel john_1
+
+configuration file for all the users, check the lists of users
+1. sudo vim /etc/passwd
+
+update USER password
+1. sudo passwd john_1
+
+
+GOUP
+
+add GROUP
+1. sudo groupadd Magento
+
+delete GROUP
+1. sudo groupdel Magento
+
+add USER to the GROUP
+1. sudo adduser john_1 Magento
+
+remove USER to GROUP
+1. sudo deluser john_1 Magento
+
+configuration file for all the group
+1. sudo vim /etc/group
+
+ENGLISH LEARN TO SPEAK
+https://www.youtube.com/watch?v=LrT-8gjwV90
+yeah what's up out there  and you can learn guitar LAN today
+today we're gonna do something not so technique oriented
+I'm goanna do is those of you looking to maybe go forward in your guitar career
+to purchase a professional kind of amp
+i'm going to go through basically how you can pick an amp different things
+you might want to think about while you know considering purchasing a higher quality
+amp different tubes different speakers how things you know and that kind of stuff so hopefully in your
+you know aspirations to become a professional musician or just
+
+https://www.youtube.com/watch?time_continue=4&v=hEdRBpjpgz0
+ELLEN: All right, we're back with Trevor Noah And so congratulations, you were named--
+People Magazine has a list of different kinds of sexy and you were sexiest, 34
+
+Trevor: yes, It's a very specific sexy,
+A very, very specific sexy, but I take it.
+Very specific at an age,
+I want to look like I was president for two terms.
+That's what I want, that kind of aging.
+
+ELLEN: I see It's just gray hair, that's all it is.
+He looks good since he hasn't been president.
+
+T: He has. He's unaged
+
+E: Yeah, after he stopped being president
+It's amazing that the life comes back to you.
+
+T. It truly, truly is
+No genuinely I said this when I met President Obama.
+Obviously I interviewed him when he was in office--
+like right at the end.
+And then I saw him a few months later,and I wass like,
+where were you hiding this?
+You know, and he's just got this thing
+He's like, well, you know, Trevor,
+When you're not fighting Fox News every day,
+you know, it comes back.
+And he just had this thing and his hair gotten darker.
+
+E: Yeah, no, he's a happy guy now.
+And Michelle's happy too.
+I thinks they're both happy.
+
+T: Yeah, they're living a great life.
+
+E:; Ok, so you're single.
+
+T: Yes, I am
+
+E: you're single. so we're going to play a game.
+It's called Who Would You Rather.
+We're going to show you some people
+and we're going to end up with the person that's best for you.
+
+
+
+https://www.youtube.com/watch?v=BUasdmczmMw
+hey what's going on guys if you've been following this channel for a while
+then you know that I've used technologies like nodejs, ruby on rails python etc quite a bit and a lot
+of people ask me to host these applications they're not as easy to deploy and host as let's say a wordpress
+site or some other PHP application where you can simply run it on a 3.00 dollar per month shared hosting account
+but one service that I would recommend for this is digital ocean
+
+
+
+DIGITAL OCEAN ACCOUNT
+user: attackerbeater@gmail.com
+pass: Internal123_digitalocean
+
+--------------------------------------------
+paypal
+user:attackerbeater@gmail.com
+pass: Internal123_paypalph
+security bank (mastercard)
+Card no: 	5318 2600 1229 0900
+expires: 	09/23
+account no: 	0000020835518
+CSC: 		663
+--------------------------------------------
+bpi bank (mastercard)
+Card no:	536347 0047 4687 28
+expires: 	02/26
+CSC:		706
+--------------------------------------------
+
+https://my.vultr.com
+user: attackerbeater@gmail.com
+pass: Internal123_vultr
+
+
+
+Ubuntu 16.04 LTS How to Move Launcher Bar to Bottom - The Easy Solution
+https://www.youtube.com/watch?v=18JN3z1C9Ns
+
+
+
+
+How To Uninstall varnish On Ubuntu 16.04 LTS
+http://installion.co.uk/ubuntu/xenial/universe/v/varnish/uninstall/index.html
+- sudo apt-get remove varnish
+- sudo apt-get remove --auto-remove varnish
+- sudo apt-get purge varnish
+- sudo apt-get purge --auto-remove varnish
+
+
+How to Install WordPress on Ubuntu 16.04 / 17.04
+https://www.youtube.com/watch?v=lpMCBjTsZ60
+
+to change owner of the file
+chown www-data.www-data /var/www/html/wordpress/
+
+
+Permission
+chmod 777
+	drwxrwxrwx
+
+chmod 755
+	drwx-xr-r
+
+chmod 644
+	drw-r--r--
+
+Install and config varnish 4 on Ubuntu 16.04
+https://www.youtube.com/watch?v=uJNKWvPumj8&t=763s
+
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock'
+https://www.youtube.com/watch?v=qr-t8ksYO78
+
+MySQL - ERROR 2002 (HY000): Can't connect to local MySQL server through socket | BackTrack 5
+https://www.youtube.com/watch?v=oXjJRrbKjp0
+
+My wordpress password
+pass: m4jXOFL&AZgzKH5^mu
+
+ubunut 16.04 QUESTION
+
+https://websiteforstudents.com/change-apache2-http-default-port-on-ubuntu-16-04-17-10-18-04/
+1. how to tomake port 8080 in localhost:8080 ?
+	edit :  sudo nano /etc/apache2/ports.conf
+		update Listen 80 to Listen 800
+
+		sudo nano /etc/apache2/sites-available/000-default.conf
+			<VirtualHost *:8080>
+
+		sudo nano /etc/apache2/sites-available/default-ssl.conf
+			Then change the port from 443 to 444
+			<VirtualHost _default_:444>
+
+		sudo systemctl restart apache2.service
+
+
+https://support.rackspace.com/how-to/installing-mysql-server-on-ubuntu/
+2. how to start mysql ?
+	systemctl start mysql
+
+3. how to stop mysql ?
+	systemctl stop mysql
+
+4. stop varnish
+	service varnish stop
+
+5. To find all socket files on your system run: ?
+	sudo find / -type s
+	sudo find / | grep mysqld
+	sudo find / -name '*.sock'
+
+6. How to completely remove PHP?
+	sudo apt-get purge 'php*'
+
+7. create symlink
+	ln -s <the file location> /var/run/mysqld/mysqld.sock
+
+8. mysql -uroot -p Enter pass:
+	ERROR 2002 (HY000): Can't connect to local MySQL server through socket 	'/var/run/mysqld/mysql.sock' (2) ?
+	1st step: https://askubuntu.com/questions/980314/cannot-install-mysql-server-in-ubuntu16-0-4
+		look for this error
+		var/lib/dpkg/info/mysql-server-5.7.postinst: line 143: /usr/share/mysql-common/configure-symlinks: No such file or directory
+
+		sol:
+			Just purge all mysql packages and reinstall:
+
+			sudo apt-get remove --purge *mysql*
+			sudo apt-get autoremove
+			sudo apt-get autoclean
+			sudo apt-get install mysql-server mysql_secure_installation
+
+
+	2nd setp: https://stackoverflow.com/questions/19658891/error-2002-hy000-cant-connect-to-local-mysql-server-through-socket-var-run
+
+		sol:
+			sudo apt-get install mysql-server mysql-client
+
+9. Disable PHP 7.0
+	a2dismod php7.0
+10. Enable PHP 7.2
+	a2enmod php7.2
+
+11. Restart the Apache web server
+	systemctl restart apache2
+
+-------------------
+https://www.youtube.com/watch?v=FpnHvp9x48c
+
+// PLUGIN
+https://www.youtube.com/watch?v=1VDpvX-NXTQ
+
+//THEME
+https://www.youtube.com/watch?v=oTRZYnYQlmo
+WORDPRESS QUIZZ
+1. the_content ?
+	- use to add text or form to page content
+
+2. plugin tutorials
+	- enable define( 'WP_DEBUG', true ); to true at wp-config.php to see the errors come.
+
+3. ABSPATH ?
+	- /var/www/html/wordpress/
+
+4. defined( 'ABSPATH' ); ?
+	- return true
+
+5. ABSPATH . dirname( __FILE__ ) . '/'; ?
+	- /var/www/html/wordpress//var/www/html/wordpress/wp-content/plugins/Pluginone/
+
+6. if(!function_exists('this_is_my_test_plugin')){}
+
+7. table for post types?
+	- wp_posts PK: ID
+	- wp_postmeta FK: post_id
+
+
+-------------------
+
+WORDPRESS LEARN
+1. How To Make a WordPress Website - 2019 - For Beginners
+	https://www.youtube.com/watch?v=8AZ8GqW5iak
+
+
+-------------------
+LYNDA
+1. Why should you optimize your websites?
+	- https://www.lynda.com/PHP-tutorials/Why-should-you-optimize-your-websites/594450/658799-4.html?srchtrk=index%3a17%0alinktypeid%3a2%0aq%3aphp+pattern%0apage%3a1%0as%3arelevance%0asa%3atrue%0aproducttypeid%3a2
+
+
+https://igniteweb.design/
+
+wp themes
+http://underscores.me/
+
+How to Speed up Ubuntu by just few Commands
+	https://www.youtube.com/watch?v=b4bwNDKl3d0
+
+	Is your Ubuntu system running slow? Today, by just typing a few commands, you can make it faster.
+
+	Open the Terminal and type these commands:
+
+	sudo -s
+	sysctl vm.swappiness=10
+	sudo swapoff -a
+	sudo swapon -a
+	sudo apt-get remove apt-xapian-index
+	cd /etc/xdg/autostart/
+	sudo sed --in-place 's/NoDisplay=true/NoDisplay=false/g' *.desktop
+	sudo apt-get install unity-tweak-tool
+	sudo apt-get install preload
+
+	NOTE: When you do sudo sed, open the startup applications from the unity dash and disable stuff that you don't need.
+
+	sudo apt-get install compizconfig-settings-manager
+
+	Now open CCSM and open Unity plugin. Change it from active blur to no blur.
+
+	I hope you enjoy ,please like and subscribe.
+	I am using Ubuntu 14.04 LTS for this video.
+	I used both a laptop and a desktop.
+	Laptop: Ubuntu
+	Desktop: Editing
+
+all IT ebooks
+https://books.goalkicker.com/?open
+
+PHP Fatal error: Uncaught exception 'ErrorException' with message 'proc_open(): fork failed - Cannot allocate memory'
+How To Add Swap on Ubuntu 16.04
+	- https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-14-04
+
+
+
+ElliteDevs: Install Magento 2 on Linux (Ubuntu 16.04)
+https://www.youtube.com/watch?v=BXVFc_617JI
+
+How to install theme in Magento 2
+https://www.youtube.com/watch?v=J0vKOvd5LWw
+
+SQL FULL TUTORIALS
+https://youtu.be/HXV3zeQKqGY
+
+
+Learning the Linux File System
+https://www.youtube.com/watch?v=HIXzJ3Rz9po
+
+
+
+Learning the Linux File System
+https://www.youtube.com/watch?v=HIXzJ3Rz9po
+
+m2 theme
+https://www.templatemonster.com/magento-2-2-5-themes/
+http://expose.ph/
+https://www.baby-g.com/
+https://www.asus.com/ph/
+http://demo.flytheme.net/themes/sm_destino/
+https://www.dahuasecurity.com/
+https://www.casio.com/home
+https://www.fujifilm.com/
+https://www.gshock.com/
+https://www.baby-g.com/
+https://www.asus.com/ph/
+
+
+
+placeholder
+https://dummyimage.com/359x140/eeeeee/000000
+
+animator
+https://freefrontend.com/css-image-effects/
+https://codepen.io/iamryanyu/pen/bvwapv
+https://codepen.io/knyttneve/pen/YgZbLO
+https://codepen.io/lab21/pen/QQvPrX
+https://codepen.io/TiagoLopes/pen/vZBMWB
+https://codepen.io/jondaiello/pen/WGZNZv
+https://codepen.io/littlesnippets/pen/dGVQvB
+https://codepen.io/suez/pen/PwKZwO
+
+plan domain names
+easyshopping.ph
+baystore.ph
+
+GRUNT
+https://devdocs.magento.com/guides/v2.3/frontend-dev-guide/css-topics/css_debug.html
+
+BREAK POINTS
+https://devdocs.magento.com/guides/v2.3/frontend-dev-guide/responsive-web-design/rwd_css.html
+
+Setup Linux Ubuntu For Web Development
+https://www.youtube.com/watch?v=ur5cqfkA4Y4
+
+How to enable or disable services on Ubuntu 16.04 LTS
+service --status-all
+service webmin status
+service webmin stop
+service webmin status
+
+//How To Install Wine On Ubuntu 16.04
+https://www.youtube.com/watch?v=1me6ebGWKEo
+- sudo dpkg --add-architecture i386
+- sudo add-apt-repository ppa:wine/wine-builds
+- sudo apt-get update
+- sudo apt-get install --install-recommends winehq-devel
+
+
+
+m2 template
+https://pearl.weltpixel.com/
+https://marketplace.magento.com/weltpixel-m2-theme-frontend-weltpixel.html
+
+
+Creating systemd Service Files
+https://www.youtube.com/watch?v=fYQBvjYQ63U
+
+
+<link  rel="stylesheet" type="text/css"  media="all" href="{{MEDIA_URL}}styles.css" />
+
+
+magento2 Invalid Form Key. Please refresh the page?
+php.ini max_input_vars = 10000
+
+	cd /etc/php/7.2/apache2/
+	vi php.ini (Open for edit and set max_input_vars=10000)
+	:wq - (Press esc and write the mentioned command to save and exit)
+	sudo /etc/init.d/apache2 restart - (Restart Server)
+
+	https://magento.stackexchange.com/questions/160829/magento2-invalid-form-key-please-refresh-the-page
+	or change localhost to 127.0.0.1
+
+	If you are running this Magento site on a local machine (local host) as your question seems to indicate, you may have trouble using the: http://localhost/ syntax, as Magento 2 doesn't fully know how to deal with cookie.
+
+	Instead, I'd recommend using http://127.0.0.1/ to access the local site; in this case your browser should be able to recognize this more easily and work with Magento's cookies properly.
+
+	You may need to set a cookie domain in the admin area of Magento.
+
+	I hope this helps...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+######################## COVER LETTER
+
+
+May 20, 2019
+
+Dear Hiring Manager,
+
+I’m excited to be applying for the Software Engineering position at The International Rice Research Institute (IRRI). With software Engineer, there is always something new to discover. Designing a program that is truly helpful to the user is my ultimate goal on every project, and I am delighted by the opportunity to apply my knowledge at IRRI.
+
+During my previous role at Acidgreen, I provided support for an online client business websites that allowed the customers to buy a products. This system is composed with the use of updated tools such as PostgreSQL/MySQL application/web programming/scripting languages such as HTML5, PHP, Javascript and CSS and
+Basic understanding of web service development. As part of my duties, I provided enhancements to the program and also provided immediate solutions to unexpected problems.
+
+Thank you for your time and consideration. I’m looking forward to learning more about the Software Engineering position and about IRRI. As a Software Engineer, my goal is to continually increase my programming skills in order to present better solutions to my employers and their clients. I enjoy uncovering new ideas and would use them to International Rice Research Institute (IRRI) to deliver possible solutions.
+
+Sincerely,
+
+John Manducdoc. Junsay
+
+// IRRI JOBS
+https://www.irri.org/jobs?fbclid=IwAR0Ue6VQzxS5u380Us_7CJoLFS3CBmT8ElteuEFtHw2IegHVGKe1ir4fkqI
+// APPLICATION
+https://www.irri.org/talentlink/details.html?nPostingID=1056&nPostingTargetID=2105&option=52&sort=DESC&respnr=1&ID=Q7LFK026203F3VBQB79QWQWAS&Resultsperpage=10&lg=EN&mask=rapido
+
+
+
+Virtual Host not working as expected when I'm using .dev domain extension
+https://askubuntu.com/questions/1024957/virtual-host-not-working-as-expected-when-im-using-dev-domain-extension
+First choice domain extension different from .dev. Last year Google bought .dev, .foo and some other domain extensions. Now the redirection to https:// of these is hard coded in some browsers. More details could be find in this helpful answer.
+
+Then edit your /etc/hosts file in this way (more details could be fund in this answer):
+
+127.0.0.1   localhost example.local www.example.local
+Then edit your <virtual-host>.conf file in the following way:
+
+<VirtualHost *:80>
+
+    ServerName example.local
+    ServerAlias www.example.local
+    ServerAdmin admin@example.local
+
+    DocumentRoot /var/www/html/example/public
+    <Directory /var/www/html/example/public/>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+</VirtualHost>
+Now, reload Apache's configuration and try to access http://example.local.
+
+
+
+
+error
+1. The contents from the "/var/www/html/technotrends/pub/static/adminhtml/Magento/backend/en_US/prototype/windows/themes/default.css" file can't be read. Warning!file
+  _get_contents(/var/www/html/technotrends/pub/static/adminhtml/Magento/backend/en_US/prototype/windows/themes/default.css): failed to open stream: No such file or d
+  irectory ?
+	answer:
+	did you try
+	php bin/magento setup:static-content:deploy en_Gb   ?
+	us_US is the default when you don't specify another 		"locale"
+
+	not if you're website is set to PESO use  php bin/magento setup:static-content:deploy -f fil_PH
+
+
+
+
+2. After I setted up the virtual host /etc/hosts and /etc/apache2/sites-available/technotrends.conf on ubuntu 16.04 LTS desktop then i used rm -rf pub/static/frontend var/view_preprocessed/pub to generate new static files but at first php bin/magento setup:static-content:deploy -f was not working and it  produced an errors is as follows example below:
+
+	 The contents from the "/var/www/html/technotrends/pub/static/adminhtml/Magento/backend/en_US/prototype/windows/themes/default.css" file can't be read. Warning!file
+  _get_contents(/var/www/html/technotrends/pub/static/adminhtml/Magento/backend/en_US/prototype/windows/themes/default.css): failed to open stream: No such file or d
+  irectory ?
+
+	then i figured it out using this command:  php bin/magento setup:static-content:deploy -f fil_PH because my default currency and country is pointed to philippines and for currency peso
+
+then the backend has an errors css logo is forbiden 403 and javascript seems not working then i've used the solution below is as follows.
+
+ 	Magento2 admin logo showing 403 Forbidden error
+	https://magento.stackexchange.com/questions/183218/magento2-admin-logo-showing-403-forbidden-error
+
+	cd <your Magento install dir>
+	find var vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;
+	find var vendor pub/static pub/media app/etc -type d -exec chmod u+w {} \;
+	chmod u+x bin/magento
+
+	After run permission command you need to run below commands
+
+	php bin/magento setup:upgrade
+	php bin/magento setup:static-content:deploy
+
+	and it fixed the errors :)
+
+
+
+
+Linux: Check Ram Speed and Type
+
+	$ sudo dmidecode --type 17
+	Speed: 1866 MHz
+	Configured Clock Speed: 1866 MHz
+	Speed: Unknown
+	Configured Clock Speed: Unknown
+
+	sudo dmidecode --type 17  | grep -i speed
+	Speed: 1866 MHz
+	Configured Clock Speed: 1866 MHz
+	Speed: Unknown
+	Configured Clock Speed: Unknown
+
+
+	john@uJohn:~$ sudo lshw -short -C memory
+	H/W path        Device      Class       Description
+	===================================================
+	/0/0                        memory      64KiB BIOS
+	/0/21                       memory      4GiB System Memory
+	/0/21/0                     memory      4GiB DIMM DDR3 Synchronous 1866 MHz (0.5
+	/0/21/1                     memory      [empty]
+	/0/2b                       memory      256KiB L1 cache
+	/0/2c                       memory      4MiB L2 cache
+
+
+
+
+
+
+
+https://www.lynda.com
+log in mo as linkedin learning
+user: dr.abucay@gmail.com
+pass: ninerzulu0

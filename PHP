@@ -1,0 +1,11 @@
+
+// __invoke
+// __constructor, https://www.php.net/manual/en/language.oop5.decon.php#object.construct
+// __destructor
+
+Are invoked when the method or property is inaccessible. 
+// __call, __callStatic,  https://www.php.net/manual/en/language.oop5.overloading.php#object.call
+// __set() is run when writing data to inaccessible properties.
+// __get() is utilized for reading data from inaccessible properties.
+
+

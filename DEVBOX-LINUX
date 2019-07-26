@@ -1,0 +1,17 @@
+cd DOCKER/devbox-linux/projects/magento2/public_html
+
+
+note: 
+- start docker 
+if Containers form project magento2 is running now You cann't run already running containers 
+	- stop icontainer
+	- remove container
+	- start docker
+
+
+
+// to start devbox-linux
+	sudo bash start-devbox.sh
+
+// if need permission run this
+ 	chmod +x start-devbox.sh

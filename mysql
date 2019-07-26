@@ -1,0 +1,17 @@
+MySQL Info
+
+// Connection name
+host	: ujohn
+socket	: /var/run/mysqld/mysqld.sock
+post	: 3306
+version	: 5.7.26-0ubuntu0.16.04.1(Ubuntu)
+compiled for : Linux (x86_64)
+configuration : /etc/mysql.my.cnf
+
+//Server directories
+base directory : /usr/
+data directory : /var/lib/mysql/
+disk space in data dir : 845G of 916G available
+plugins directory : /usr/lib/mysql/plugin/
+Tmp directory : /tmp
+error log : /var/log/mysql/error.log 

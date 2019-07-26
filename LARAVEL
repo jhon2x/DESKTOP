@@ -1,0 +1,1399 @@
+mini crm
+https://github.com/nafiesl/Mini-CRM
+
+tuts
+1. https://demonuts.com/laravel-5-8-crud/
+2. https://appdividend.com/2019/03/09/laravel-5-8-form-validation-tutorial-with-example/
+3. https://www.lynda.com/PHP-tutorials/Terminable-middleware/800213/5034312-4.html?autoplay=true
+4. https://www.lynda.com/PHP-tutorials/Transform-your-API-data/677182/713690-4.html?srchtrk=index%3a11%0alinktypeid%3a2%0aq%3aphp+pattern%0apage%3a1%0as%3arelevance%0asa%3atrue%0aproducttypeid%3a2
+
+HOST
+
+sudo nano /etc/hosts
+- 127.0.0.1       localhost beltechnology.local www.complex-system.local
+
+create file under /etc/apache2/sites-available/
+eg: touch complex-system.conf
+sudo /etc/apache2/sites-available/complex-system.conf
+or cp -R /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/test.conf
+
+- GNU nano 2.5.3                                 File: technotrends.conf
+
+<VirtualHost *:80>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+
+        ServerName beltechnology.local
+        ServerAlias www.beltechnology.local
+
+        ServerAdmin attackerbeater@gmail.com
+        DocumentRoot /var/www/html/technotrends/pub
+
+        <Directory /var/www/html/beltechnology/>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>
+
+sudo a2ensite beltechnology.conf
+sudo a2enmod rewrite
+sudo systemctl restart apache2.service
+
+------------------------------ BEGIN LARAVEL ------------------------------
+INSTALLATION
+	composer create-project --prefer-dist laravel/laravel foldername
+  run foldername/composer install
+
+  if can delete vendor folder and composer.lock to re run composer installed
+
+  php artisan serve
+
+--- ERROR
+1. Not Found
+The requested URL / was not found on this server.
+
+Apache/2.4.18 (Ubuntu) Server at beltechnology.local Port 80
+https://www.quora.com/How-do-I-fix-%E2%80%9CThe-requested-URL-was-not-found-on-this-server-%E2%80%9D
+
+2. UnexpectedValueException
+	The stream or file "/var/www/html/complex-system/storage/logs/laravel-2019-05-24.log" could not be opened: failed to open stream: Permission denied
+	ans:
+	$ sudo chmod -R 777 foldername/storage
+  $ sudo chmod -R 777 storage
+--- END
+
+3. file permission
+https://www.itechempires.com/2017/06/laravel-5-files-folders-permission-ownership-setup/
+sudo chown -R root:www-data /var/www/html/complex-system/
+sudo find /var/www/html/complex-system/ -type f -exec chmod 664 {} \;
+sudo find /var/www/html/complex-system/ -type d -exec chmod 775 {} \;
+
+
+
+sudo find . -type f -exec chmod 664 {} \;
+sudo find . -type d -exec chmod 775 {} \;
+
+//CUSTOM NAMESPACE
+
+to create model ex: complex-system/app/Point.php
+php artisan make:model Point
+
+
+create table migrations, password_resets, users
+//to create table in laravel 
+  - php artisan make:migration basic_pointing_system
+
+// rollback table data from the beginning
+  php artisan migrate:refresh --seed
+
+-- some errors encountered
+Class UsersTableSeeder does not exist?
+   - Try changing
+
+      $this->call('UserTableSeeder');
+    to
+
+      $this->call(UserTableSeeder::class);
+    and try running
+
+     composer dump-autoload
+
+
+note:
+	before run just to make sure if file database/migrations/2018_10_10_000942_basic_pointing_system.php has been added
+
+
+php artisan tinker
+>>> factory(App\Company::class, 15)->create(['creator_id' => 1])->each(function ($u) { $u->employees()->saveMany(factory(App\Employee::class, rand(5, 12))->make(['company_id' => $u->id])); });  
+
+php artisan tinker 
+>>> factory(App\User::class, 19)->create(); -> creates 20 user with password 'secret'
+>>> factory(App\Employee::class, 19)->create(); 
+
+>>> factory(App\Test::class, 19)->create(['creator_id' => 1])->each(function ($u) { 
+      $u->employees()
+        ->saveMany(factory(App\Employee::class, 20))
+        ->make(['test_id' => $u->id])); 
+    });
+
+>>> factory(App\Company::class, 15)->create(['creator_id' => 1])->each(function ($u) { 
+      $u->employees()
+        ->saveMany(factory(App\Employee::class, rand(5, 12))
+        ->make(['company_id' => $u->id])); 
+    });
+
+php artisan tinker 
+>>> $t = new App\Test;
+=> App\Test {#2957}
+>>> $t->user_employee_name = 'lando'
+=> "lando"
+>>> $t->save();
+
+
+\App\User::Active()->get()
+
+
+>>> $t = new App\Test;
+=> App\Test {#2964}
+>>> $t->scopeAddNameToTestTable();
+=> "App\Traits\TestTrait::scopeAddNameToTestTable"
+
+$t = new App\Test;
+$t->scopeAddNameToTestTable(['user_employee_name' => 'afasfaf']);
+
+save using traits
+root@uJohn:/var/www/html/laravel-auth-pages# php artisan tinker
+Psy Shell v0.9.9 (PHP 7.2.19-1+ubuntu16.04.1+deb.sury.org+1 — cli) by Justin Hileman
+>>> $t = new App\User;
+=> App\User {#2964}
+>>> $t->addNameToTestTable(['user_employee_name' => 'from user']);
+=> App\Test {#2963
+     user_employee_name: "from user",
+     updated_at: "2019-07-03 23:53:22",
+     created_at: "2019-07-03 23:53:22",
+     id: 8,
+   }
+>>> $t = new App\Employee;
+=> App\Employee {#2968}
+>>> $t->addNameToTestTable(['user_employee_name' => 'from employee']);
+=> App\Test {#2961
+     user_employee_name: "from employee",
+     updated_at: "2019-07-03 23:53:39",
+     created_at: "2019-07-03 23:53:39",
+     id: 9,
+   }
+>>> $t = new App\Test;
+=> App\Test {#2960}
+>>> $t->addNameToTestTable(['user_employee_name' => 'from test']);
+=> App\Test {#2969
+     user_employee_name: "from test",
+     updated_at: "2019-07-03 23:53:54",
+     created_at: "2019-07-03 23:53:54",
+     id: 10,
+   }
+>>> 
+
+
+
+
+
+
+to create controller
+php artisan make:controller Web/TeamController --resource --model=Team
+php artisan route:list
+routes path
+routes/web.php
+
+//ROUTE MACROS
+
+php artisan make:provider RouteMacroServiceProvider
+- app/providers/RouteMacroServiceProvider.php
+
+  1. add this use Illuminate\Support\Facades\Response;
+
+  2. public function register()
+  {
+  	response::macro('jTitle', function($model){
+            return Response::json([$model->title]);
+        });
+  }
+
+  3. add the below code to the path
+  config/app.php
+	'providers' => [App\Providers\RouteMacroServiceProvider::class,],
+
+
+//ROUTE GROUP
+
+
+//NAMED ROUTE
+
+
+//SIGNED ROUTES
+
+
+
+2:28 - 4:00
+// DEFAULT ROUTE VALUES
+
+2:28 - 2:44
+
+
+--------------------------------- Controllers
+
+// Request validation
+php artisan make:request StoreLeveranciers
+app/Http/Request/StoreLeveranciers.php
+
+public function authorize()
+{
+       	// default is false;
+	return true;
+}
+
+public function rules()
+{
+	return [
+            'suplier_name' => 'required|unique:suplier_name|max:255',
+        ];
+}
+
+//VALIDATION TESTING
+composer require --dev laravel/dusk
+php artisan dusk:install
+php artisan dusk:make LeveranciersCreateTest - test/Browser/LeveranciersCreateTest.php
+
+class LeveranciersCreateTest extends DuskTestCase
+{
+  use DatabaseMigrations;
+
+	public function testCreatePass() //testExample
+	{
+		$this->browse(function (Browser $browser) {
+		    $browser->visit('/leveranciers/create')
+			    // ->assertSee('Laravel');
+			    ->type('supplier_name', 'SampleTest')
+			    ->press('Create')
+			    ->assertPathIs('/leveranciers')
+		});
+	}
+
+	public function testCreateFail() //testExample
+	{
+		$this->browse(function (Browser $browser) {
+		$browser->visit('/leveranciers/create')
+		    // ->assertSee('Laravel');
+		    ->type('supplier_name', '')
+		    ->press('Create')
+		    ->assertPathIs('/leveranciers/create');
+		});
+	}
+
+	run - php artisan dusk
+
+
+// Request authorization -- undone
+php artisan make:auth
+
+// Exception rendering
+php artisan make:exception ActionNotCompletedException
+it creates App\Exceptions\ActionNotCompletedException.php
+
+
+// Beyond a resource controller
+
+
+// Service injection
+http://laraveltest.local/admin/leveranciers/10/getById
+
+
+
+--------------------------------- AUTHENTICATION AUTHORIZATION ---------------------------------
+
+// Custom user guards
+1. App\Providers\AuthServiceProvider
+  public function boot()
+    {
+	\\ add this code
+        \Auth::viaRequest('email',  function($request){
+            return \App\User::where('email', $request->email)->first();
+        });
+    }
+
+2. config/auth.php
+    'guards' => [
+        'email' => [
+            'driver' => 'email',
+            'provider' => 'users',
+        ],
+    ],
+
+3. Route::get('/square/{number?}', function($number =10){
+	return $number * $number;
+   })->middleware('auth:email'); <!-- add this middelware
+
+4. access url with registered email
+
+	http://laraveltest.local/square/29?email=dare.marvin@example.org
+   note: if email is not  registered yet it can't be accessed. it will be redirected to login page
+
+
+
+// Custom user gating -- undone
+
+// Before user gating
+
+
+--------------------------------- ELOQUENT ---------------------------------
+
+// Global scoping
+
+// Eloquent Events
+
+// Eloquent observers
+	php artisan make:observer UserObserver --model=User
+	App\Observers\UserObserver.php
+
+// Custom accessors
+
+
+// Custom mutators
+
+// Advanced wheres
+
+
+--------------------------------- COLLECTIONS ---------------------------------
+
+// Iteration
+
+
+// Filtering
+
+
+// Mapping
+
+
+
+
+--------------------------------- BLADE ---------------------------------
+
+// custom blade directives
+1. App/ButtonSubmit.php
+    namespace App;
+    class ButtonSubmit {
+    	public static function button($name){
+    		return "<div class=\"form-group\">
+    		<button class=\"btn btn-primary\" type=\"submit\">{$name}</button>
+    	</div>";
+    	}
+    }
+
+
+2. App\Providers\AppServiceProvider.php
+    within the boot method add this
+    public function boot()
+    {
+    	\Blade::directive('ButtonSubmit', function($field){
+    	    return "<?php echo \App\ButtonSubmit::button($field); ?>";
+    	});
+    }
+
+3. add @ButtonSubmit('Create') in file.blade.php
+    @extends('template')
+    @section('content')
+    <form action="{{ action('Leveranciers\LeveranciersController@store') }}" method="POST">
+    	@csrf
+    	@ButtonSubmit('Create')
+    </form>
+    @endsection
+
+
+// view components
+1. App\LeveranciersGetByIdComposer.php
+    namespace App;
+
+    class LeveranciersGetByIdComposer {
+
+    	public function __construct(\App\Leveranciers\Repository $leveranciers){
+
+    		$this->leveranciers = $leveranciers;
+    	}
+
+    	public function compose(\Illuminate\View\View $view){
+
+    		$view->with('getById', $this->leveranciers->getById(\App\Leveranciers::first()));
+    	}
+    }
+
+2. App\Providers\AppServiceProvider.php
+    within the boot method add this
+    public function boot()
+    {
+     	\View::composer('*', 'App\LeveranciersGetByIdComposer');
+    }
+
+3. call in .phtml file
+    <p>{{ $getById }}</p>
+
+
+// view creators
+
+
+
+
+
+--------------------------------- MIDDLEWARE ---------------------------------
+// Global middleware
+1. php artisan make:middleware Logging
+2. App\Http\Middleware\Logging.php
+
+    namespace App\Http\Middleware;
+    use Closure;
+    class Logging
+    {
+        /**
+         * Handle an incoming request.
+         *
+         * @param  \Illuminate\Http\Request  $request
+         * @param  \Closure  $next
+         * @return mixed
+         */
+        public function handle($request, Closure $next)
+        {
+
+            // add this line of code
+            \Log::info(
+                $request->fullUrl(),
+                [
+                    'method' => $request->method(),
+                    'input'  => $request->all(),
+                ]
+            );
+            // end
+
+            return $next($request);
+        }
+    }
+
+3. App\Http\Kernel.php
+
+    protected $middleware = [
+    	\App\Http\Middleware\Logging::class, <!-- add this code
+    ]
+    then open up the browser and browse any page on the laravel website
+    you could see all pages can give logs because it is globally access
+    check the storage logs\log
+
+
+// Route middleware
+1. php artisan make:middleware LogLeveranciers
+2. namespace App\Http\Middleware\LogLeveranciers.php
+    use Closure;
+    class LogLeveranciers
+    {
+        /**
+         * Handle an incoming request.
+         *
+         * @param  \Illuminate\Http\Request  $request
+         * @param  \Closure  $next
+         * @return mixed
+         */
+        public function handle($request, Closure $next)
+        {
+
+            // add this line of code
+            \Log::info($request->route('leveranciers')->id);
+            // end
+
+            return $next($request);
+        }
+    }
+3. go to App\Http\Kernel.php
+      note on this steps blow
+
+      1.
+      protected $middleware = [
+         \App\Http\Middleware\LogLeveranciers::class, <!-- this code produce errors from all of the pages
+      ]
+
+      2.
+      protected $middlewareGroups = [
+          'web' => [
+            \App\Http\Middleware\LogLeveranciers::class, <!-- this code will works only on the page http://laraveltest.local/admin/leveranciers/create/1/leverancier, http://laraveltest.local/admin/leveranciers/create/1/getById page that has an id on route leveranciers $request->route('leveranciers')->id -->
+
+          ],
+
+      ];
+
+4. it will works
+    Route::group(['namespace' => 'Leveranciers', 'middleware' => ['\App\Http\Middleware\LogLeveranciers']],function(){
+
+
+// Terminable middleware
+
+
+
+https://www.kantotero.net/winasak-ang-makipot-na-puke-ni-gf/
+https://www.kantotero.net/monique-santos-university-of-the-east-student-scandal/
+
+
+-------------------------------------------------  Building RESTful APIs in Laravel -------------------------------------------------
+
+requires
+
+1. php pacakges to be installed
+  - OpenSSL
+  - PDO
+  - mastering
+  - Tokenizer
+  - XML
+2. composer
+
+create table using
+
+path: database/migration
+php artisan make:migration create_community_polls
+
+path: database/factories
+PollFactory.php
+
+path: database/seeds
+DatabaseSeeder.php
+
+php artisan make:model Poll
+
+php artisan make:model Question
+
+php artisan make:model Answer
+
+php artisan db:seed ?
+  -
+  By default, the db:seed command runs the DatabaseSeeder class, which may be used to call other seed classes. However, you may use the --class option to specify a specific seeder class to run individually: php artisan db:seed php artisan db:seed --class=UsersTableSeeder.
+
+
+--------------------------------------- THE BREAD API
+
+Directory Structure
+https://laravel.com/docs/5.8/structure#the-root-app-directory
+
+//create endpoint
+routes/api.php
+Route::get('polls','PollsController@index');
+Route::get('polls/{id}','PollsController@show');
+
+
+
+-------- reading a record
+ENDPOIT ?
+  -
+  to get all of the post from the database
+  ex
+    http://laraveltest.local/api/polls
+
+
+-------- adding a record
+see Poll
+  protected $fillable = [] - why is this important when used POST on rest client ?
+
+see PollsController
+
+  public function store(Request $request){
+    $poll = Poll::create($request->all());
+    return response()->json($poll, 201);
+  }
+
+-------- editing a record
+routes/api
+  Route::put('polls/{poll}', 'PollsController@update');
+
+see PollsController
+
+public function update(Request $request, Poll $poll){
+  $poll->update($request->all());
+  return response()->json($poll, 200);
+}
+
+-------- deleting a record
+routes/api
+  Route::delete('polls/{poll}', 'PollsController@delete');
+
+see PollsController
+
+  public function delete(Request $request, Poll $poll){
+    $poll->delete();
+    return response()->json($poll, 204);
+  }
+
+
+--------------------------------------- API ERRORS AND EXCEPTIONS
+
+//Producing a missing record error
+
+see PollsController
+
+public function show($id){
+
+  // this has been added to changed the default 404 response
+  $poll = Poll::find($id);
+
+  if(is_null($poll)){
+    return response()->json(null, 404);
+  }
+  // end
+
+  return response()->json(Poll::findOrFail($id), 200);
+}
+
+// Returning validation errors
+
+public function store(Request $request){
+
+  //  added validation
+  $rules = [
+    'title' => 'required|max:10',
+  ];
+
+  $validator = Validator::make($request->all(), $rules);
+  if($validator->fails()){
+    return response()->json($validator->errors(), 400); // 404 bad request
+  }
+  // end
+
+  $poll = Poll::create($request->all());
+  return response()->json($poll, 201); // 201 is for when we have a whole object
+}
+
+
+
+// How to process other errors
+1. routes/api.php
+  Route::any('errors', 'PollsController@errors');
+
+2. see PollsController
+
+  public function errors(){
+    return response()->json(['message' => 'Payment is required'], 501);
+  }
+
+3. http://laraveltest.local/api/errors
+  with method GET on rest client
+
+
+--------------------------------------- BEYOND THE BREAD API
+
+
+// Transform your API data
+
+1. php artisan make:resource Poll
+  app/Http/Resouce/Poll.php
+
+  <?php
+  namespace App\Http\Resources;
+
+  use Illuminate\Http\Resources\Json\JsonResource;
+
+  class Poll extends JsonResource
+  {
+      /**
+       * Transform the resource into an array.
+       *
+       * @param  \Illuminate\Http\Request  $request
+       * @return array
+       */
+      public function toArray($request)
+      {
+          return [
+            'title' => mb_strimwidth($this->title, 0,5, '...');
+        ];
+      }
+  }
+
+2. see PollsController  change the function show method
+
+    use App\Http\Resources\Poll as PollResource;
+
+    public function show($id){
+
+      $poll = Poll::find($id);
+
+      if(is_null($poll)){
+        return response()->json(null, 404);
+      }
+
+      // look at this line
+      $response = new PollResource(Poll::findOrFail($id), 200);
+      return response()->json($response, 200);
+    }
+
+
+3. the output
+
+    before
+    {
+      "id": 4,
+      "title": "King, and he checked himself suddenly: the.",
+      "created_at": "2019-05-28 17:19:15",
+      "updated_at": "2019-05-28 17:19:15"
+      }
+
+    after
+
+      {
+        "title": "Ki..."
+      }
+
+
+
+// Beyond a simple BREAD API
+
+1. // Questions
+routes/api.php
+  Route::apiResource('questions', 'Api\QuestionsController');
+
+2. php artisan make:controller Api/QuestionsController --resource --model=Questions
+
+    and apply the query within the functions
+
+3. method: GET
+    http://laraveltest.local/api/questions
+
+// Managing subresources  get poll questions
+1. routes/api.php
+  Route::get('polls/{poll}/questions', 'PollsController@questions');
+
+2. see PollsController
+  create the questions method
+  public function questions(Request $request, Poll $poll){
+      $questions = $poll->questions;
+      return response()->json($questions, 200);
+    }
+
+4. App\Poll Model
+
+    add this to get the questions of poll by id
+    public function questions(){
+      return $this->hasMany('App\Questions');
+    }
+
+5.  http://laraveltest.local/api/polls/1/questions
+
+
+
+
+--------------------------------------- AUTHENTICATING TO YOUR API
+
+// Token authentication
+
+Authentication VS Authorization
+
+1. Authentication - A token identifies a user
+2. Authorization - A user has access to a resource
+
+php artisan make:middleware TokenAuth
+App\Http\Middleware\TokenAuth.php
+add this within handle method
+  $token = $request->header('X-API-TOKEN'); // on resclient it will be the Header Name
+
+  // and the test-value will be the Header value
+  if('test-value' != $token){
+    abort(401, 'Auth Token not found');
+  }
+
+  got to App\Http\Kerenel.php
+  protected $middlewareGroups = [
+        'api' => [
+            \App\Http\Middleware\TokenAuth::class, <!-- add this line not remove this iif you'll use Basic Authentication
+        ],
+    ];
+
+
+  ex:
+
+  Header Name   Header value
+  X-API-TOKEN   test-value
+
+  then if correct you're able to access
+  else produced 401 error when accessing any endpoint such this
+
+  http://laraveltest.local/api/polls
+
+
+// Basic authentication
+
+php artisan make:middleware BasicAuth
+App\Http\Middleware\BasicAuth.php
+use Illuminate\Support\Facades\Auth;
+
+public function handle($request, Closure $next)
+{
+    return Auth::onceBasic()? : $next($request);
+}
+
+got to App\Http\Kerenel.php
+protected $middlewareGroups = [
+    'api' => [
+        \App\Http\Middleware\BasicAuth::class, <!-- add this line
+    ],
+];
+
+visit any endpoint url : http://laraveltest.local/api/polls
+go to Basic Auth to give you an access and add the ff
+  username: attackerbeater@gmail.com
+  pass: yourpassword
+
+
+in jQuery ajax this will be the code
+beforeSend: function (xhr) {
+    xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
+},
+
+or
+$.ajax
+({
+  type: "GET",
+  url: "http://laraveltest.local/api/polls",
+  dataType: 'json',
+  headers: {
+    "Authorization": "Basic " + btoa(USERNAME + ":" + PASSWORD)
+  },
+  data: '{ "comment" }',
+  success: function (){
+    alert('Thanks for your comment!');
+  }
+});
+
+
+// OAuth2: The basics
+
+
+// OAuth2: Setup and installation
+
+- php artisan make:auth
+- sudo composer require laravel/passport
+- php artisan migrate
+- php artisan passport:install
+  it will give
+  Encryption keys generated successfully.
+
+  Personal access client created successfully.
+  Client ID: 1
+  Client secret: zg1ZQBG1G6dc425Eq2Fyax8xWZNeIxk4fIrTt8BA
+
+  Password grant client created successfully.
+  Client ID: 2
+  Client secret: thOxpQ9SRwSGFilup0ypvfVXGaxEEXFvL6Q6vEWe
+
+- go to App\User.php
+  add use Laravel\Passport\HasApiTokens;
+  add HasApiTokens
+  class User extends Authenticatable
+  {
+    use HasApiTokens;
+
+- go to App\Providers\RouteServiceProvider.php
+  add use Laravel\Passport\Passport;
+  add  Passport::routes(); under map function
+    public function map()
+    {
+        $this->mapApiRoutes();
+
+        $this->mapWebRoutes();
+
+        Passport::routes(); <- add this
+
+    }
+
+- go to config/auth.php
+  on line 38
+  change 'driver' default value token to 'passport'
+
+  'guards' => [
+    'api' => [
+      'driver' => 'passport'
+    ]
+  ]
+
+
+// OAuth2: Creating and setting tokens
+
+1.  create client -server
+  composer create-project --prefer-dist laravel/laravel client-server
+  cd client-server
+  composer require guzzlehttp/guzzle
+  go to routes/web.php and add this code
+  -
+    Route::get('/redirect', function () {
+
+        $query = http_build_query([
+            'client_id' => '4',
+            'redirect_uri' => 'http://127.0.0.1:8001/callback',
+            'response_type' => 'code',
+            'scope' => ''
+        ]);
+
+        return redirect('http://127.0.0.1:8000/oauth/authorize?'.$query);
+    });
+
+    Route::get('/callback', function (Illuminate\Http\Request $request) {
+        $http = new \GuzzleHttp\Client;
+
+        $response = $http->post('http://127.0.0.1:8000/oauth/token', [
+            'form_params' => [
+                'client_id' => '4',
+                'client_secret' => 'WlXfWyZROEKcCV5e2GcPU2bLMy7IXx1YKrIg2SWn',
+                'grant_type' => 'authorization_code',
+                'redirect_uri' => 'http://127.0.0.1:8001/callback',
+                'code' => $request->code,
+            ],
+        ]);
+        return json_decode((string) $response->getBody(), true);
+    });
+
+2. go back to cd laravelTest
+    run
+        php artisan passport:client
+        this will be output
+
+        Which user ID should the client be assigned to?:
+        > 51 <!--- assign id number of target client from 'users table'
+
+        What should we name the client?:
+        > client-server <!--- you can assign any text for client name
+
+        Where should we redirect the request after authorization? [http://localhost/auth/callback]:
+        > http://127.0.0.1:8001/callback <!-- this will be the client-server url callback
+
+        then hit the enter
+
+        New client created successfully.
+        Client ID: 4
+        Client secret: WlXfWyZROEKcCV5e2GcPU2bLMy7IXx1YKrIg2SWn <- copy this secret random character
+
+        go back to cd client-server/routes/web.php then add Client secret to
+          client_secret' => 'WlXfWyZROEKcCV5e2GcPU2bLMy7IXx1YKrIg2SWn',
+
+        then go back to the cd client-server
+        run php artisan serve --port 8001 to set port 8001
+        then go to the browser run the http://127.0.0.1:8001/redirect
+
+
+
+--------------------------------- LaravelTest
+
+sudo chown -R root:www-data /var/www/html/laravelTest/
+sudo find /var/www/html/laravelTest/ -type f -exec chmod 664 {} \;
+sudo find /var/www/html/laravelTest/ -type d -exec chmod 775 {} \;
+
+// get data from table
+goto controller file
+use Illuminate\Support\Facades\DB;
+
+add this under index function
+	$leveranciers = DB::table('leveranciers')->orderBy('id', 'desc')->get();
+	echo '<pre>';
+	print_r($leveranciers);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------
+-- create table
+CREATE TABLE movies_rented_notnormalized (
+    id int NOT NULL,
+    full_names varchar(255) NOT NULL,
+    physical_address varchar(255) NOT NULL,
+    movies_rented varchar(255) NOT NULL,
+    salutation varchar(255) NOT NULL,
+    category varchar(255) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+-- rename column to auto increment
+ALTER TABLE `movies_rented_notnormalized` MODIFY COLUMN id INT auto_increment;
+
+-- first insert
+INSERT INTO `movies_rented_notnormalized` (`full_names`, `physical_address`, `movies_rented`, `salutation`, `category`) VALUES
+('Regine Panisales', 'San Antonio Bay Laguna', 'Pirates of the caribbean, Clash of the Titans', 'Ms.', 'Action,Comedy'),
+('John Junsay', 'San Nicolas Bay Laguna', 'Database, Programming', 'Mr.', 'Schema,Backend'),
+('John Junsay', 'Maitim Bay Laguna', 'Designing', 'Mr.', 'Frontend');
+
+-------------------------------------------------------------- 1NF --------------------------------------------------------------
+
+-- create table
+CREATE TABLE movies_rented_1nf (
+    id int NOT NULL,
+    full_names varchar(255) NOT NULL,
+    physical_address varchar(255) NOT NULL,
+    movies_rented varchar(255) NOT NULL,
+    salutation varchar(255) NOT NULL,
+    category varchar(255) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+-- rename column to auto increment
+ALTER TABLE `movies_rented_1nf` MODIFY COLUMN id INT auto_increment;
+
+-- 1NF
+INSERT INTO `movies_rented_1nf` (`full_names`, `physical_address`, `movies_rented`, `salutation`, `category`)
+VALUES
+('Regine Panisales', 'San Antonio Bay Laguna', 'Pirates of the caribbean', 'Ms.', 'Action'),
+('Regine Panisales', 'San Antonio Bay Laguna', 'Clash of the Titans', 'Ms.', 'Comedy'),
+('John Junsay', 'San Nicolas Bay Laguna', 'Database', 'Mr.', 'Skills'),
+('John Junsay', 'San Nicolas Bay Laguna', 'Programming', 'Mr.', 'Skills'),
+('John Junsay', 'Maitim Bay Laguna', 'Designing', 'Mr.', 'Skills');
+
+-------------------------------------------------------------- 2NF --------------------------------------------------------------
+-- create table
+CREATE TABLE movies_rented_2nf (
+    id int NOT NULL,
+    full_names varchar(255) NOT NULL,
+    physical_address varchar(255) NOT NULL,
+    salutation varchar(255) NOT NULL,
+    category varchar(255) NOT NULL,
+    PRIMARY KEY (id, full_names, physical_address)
+);
+
+-- rename column to auto increment
+ALTER TABLE `movies_rented_2nf` MODIFY COLUMN id INT auto_increment;
+
+INSERT INTO `movies_rented_2nf` (`full_names`, `physical_address`, `salutation`, `category`)
+VALUES
+('Regine Panisales', 'San Antonio Bay Laguna', 'Ms.', 'Action, Comedy'),
+('John Junsay', 'San Nicolas Bay Laguna', 'Mr.', 'Skills, Backend'),
+('John Junsay', 'Maitim Bay Laguna', 'Mr.', 'Skills');
+
+
+INSERT INTO `movies_rented_2nf` (`full_names`, `physical_address`, `salutation`, `category`)
+VALUES
+('Regine Panisales', 'San Antonio Bay Laguna', 'Ms.', 'Action, Comedy');
+
+INSERT INTO `movies_rented_title_2nf` (`movies_rented_2nf_fk_id`, `movies_rented`, `category`)
+VALUES(
+    (SELECT `id`FROM `movies_rented_2nf` WHERE `id` = @@Identity)
+    'dada',
+    'dadadadasd'
+);
+
+
+
+
+('John Junsay', 'San Nicolas Bay Laguna', 'Mr.', 'Skills, Backend'),
+('John Junsay', 'Maitim Bay Laguna', 'Mr.', 'Skills');
+
+
+CREATE TABLE movies_rented_title_2nf (
+    id int NOT NULL,
+    movies_rented_2nf_fk_id int NOT NULL,
+    movies_rented varchar(255) NULL,
+    category varchar(255) NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (movies_rented_2nf_fk_id) REFERENCES movies_rented_2nf(id)
+);
+
+-- rename column to auto increment
+ALTER TABLE `movies_rented_title_2nf` MODIFY COLUMN id INT auto_increment;
+
+INSERT INTO `movies_rented_title_2nf` (`movies_rented_2nf_fk_id`, `movies_rented`, `category`)
+VALUES
+(1, 'Pirates of the caribbean', 'Action'),
+(1, 'Clash of the Titans', 'Comedy'),
+(2, 'Database', 'Skills'),
+(2, 'Programming', 'Skills'),
+(3, 'Designing', 'Skills');
+
+
+INSERT INTO `movies_rented_title_2nf` (`movies_rented_2nf_fk_id`, `movies_rented`, `category`)
+SELECT
+  `id`
+FROM
+  `movies_rented_2nf`
+WHERE
+  `full_names` = 'Regine Panisales',
+'Pirates of the caribbean',
+'Action';
+
+
+
+INSERT INTO `movies_rented_title_2nf` (`movies_rented_2nf_fk_id`)
+SELECT
+  `id`
+FROM
+  `movies_rented_2nf`
+WHERE
+  `full_names` = 'Regine Panisales';
+INSERT INTO `movies_rented_title_2nf` (`movies_rented`, `category`)
+VALUES ('Pirates of the caribbean', 'Action')
+
+
+
+(SELECT id FROM movies_rented_2nf WHERE full_names = 'Regine Panisales', 'Pirates of the caribbean', 'Action'),
+(SELECT id FROM movies_rented_2nf WHERE full_names = 'Regine Panisales', 'Clash of the Titans', 'Comedy'),
+(SELECT id FROM movies_rented_2nf WHERE full_names = 'John Junsay', 'Database', 'Skills'),
+(SELECT id FROM movies_rented_2nf WHERE full_names = 'John Junsay', 'Programming', 'Skills'),
+(SELECT id FROM movies_rented_2nf WHERE full_names = 'John Junsay', 'Designing', 'Skills');
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+// insert into table
+INSERT INTO `movies_rented`(`full_names`, `physical_address`, `movies_rented`, `salutation`, `category`) VALUES ('John Junsayadasdas', 'Maitim Bay Laguna', 'Designing', 'Mr.', 'Skills');
+
+// rename table
+ALTER TABLE `movies_rented` RENAME TO `movies_rented_notnormalized`;
+
+
+
+
+
+// QUERYING
+
+5. Joining Tables
+  INNER JOIN - doesn't show NULL values
+  LEFT OUTER JOIN - shows NULL values
+
+
+
+
+
+
+---------------------------
+
+
+CREATE TABLE `department` (
+    DeptId int NOT NULL,
+    name varchar(255) NULL,
+    location varchar(255) NULL,
+    budget varchar(255) NULL,
+    PRIMARY KEY (DeptId)
+);
+
+-- rename column to auto increment
+ALTER TABLE `department` MODIFY COLUMN DeptId INT auto_increment;
+
+CREATE INDEX DeptId
+ON department (DeptId);
+
+
+INSERT INTO `department` (`name`, `location`, `budget`)
+VALUES
+('Production', 'CA', 'A4'),
+('R&D', 'AZ', 'B17'),
+('Marketing', 'CA', 'A7'),
+('Sales', 'CA', 'A7'),
+('PR', 'UK', 'C9');
+
+
+CREATE TABLE employee (
+    id int NOT NULL,
+    fname varchar(255) NULL,
+    lname varchar(255) NULL,
+    hireDate varchar(255) NULL,
+    DeptId int NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (DeptId) REFERENCES department(DeptId)
+);
+
+-- rename column to auto increment
+ALTER TABLE `employee` MODIFY COLUMN id INT auto_increment;
+
+INSERT INTO `employee` (`fname`, `lname`, `hireDate`, `DeptId`)
+VALUES
+('Aaron', 'Cooper', '04/17/04', 2),
+('Lou', 'Donoghue', '05/22/05', 4),
+('Alice', 'Bailey', '09/01/99', NULL),
+('Oswald', 'Hall', '03/19/11', 5),
+('John', 'Velasquez', '04/05/10', 4);
+
+
+SELECT
+  fname, lname, hireDate, e.DeptId, name, location
+FROM employee e
+INNER JOIN department d
+ON e.DeptId = d.DeptId;
+
+
+https://guide.freecodecamp.org/agile
+
+
+
+
+Quotes for learner
+1. The longer you wait to apply knowledge, the less you'll recall
+2. to gain knowledge not just watching but doing.
+
+
+// INSTALING REACT
+https://youtu.be/YLwy5EPYjbg
+1. php artisan help preset
+2. php artisan preset react
+3. npm install && npm run dev
+4. go to packages.json
+     "devDependencies": {
+        "@babel/preset-react": "^7.0.0",
+        "axios": "^0.18",   - has
+        "bootstrap": "^4.1.0", - has
+        "cross-env": "^5.1",
+        "jquery": "^3.2",
+        "laravel-mix": "^4.0.7",
+        "lodash": "^4.17.5",
+        "popper.js": "^1.12",
+        "react": "^16.2.0", - has
+        "react-dom": "^16.2.0", - has
+        "resolve-url-loader": "^2.3.1",
+        "sass": "^1.15.2",
+        "sass-loader": "^7.1.0"
+    }
+5. resources/js/app.js
+    - require('./bootstrap');
+    - we have fresh react component require('./components/Example');
+    - resources/js/components/Example.js
+
+
+  6. run to see  changes:
+      npm run watch
+      or
+      npm run development  --watch
+
+
+--------------------------------------- laravel basics
+// maintenance mode
+php artisan down
+php artisan up
+
+// clear cache
+php artisan cache:clear
+
+// create model with no migration
+php artisan make:model Test
+
+// create model with migration
+php artisan make:model Test -m
+
+inheritance
+
+providers : working in all pages
+facades:
+  - use for select, decrypt or encrypt password
+
+
+
+------------ INSTALL ADMIN LTE WITH BOWER ON UBUNTU 16.04 ---------------
+Integrate AdminLTE with Laravel 5
+- https://adminlte.io/blog/integrate-adminlte-with-laravel
+
+https://tecadmin.net/install-bower-on-ubuntu/
+- sudo using "--allow-root" option
+
+
+--- PORT
+For port 8080:
+php artisan serve --port=8080
+And if you want to run it on port 80, you probably need to sudo:
+sudo php artisan serve --port=80
+
+// add ForField to laravel 5.8
+https://packagist.org/packages/luthfi/formfield
+
+
+-- mail trap
+https://mailtrap.io
+user: junsayjohn4@gmail.com
+pass: emailtester1234
+
+-- How To Send Email In Laravel Tutorial
+https://appdividend.com/2018/03/05/send-email-in-laravel-tutorial/
+
+
+
+//Demo: Expense Manager - Laravel multi-tenancy and multi-currencies
+https://www.youtube.com/watch?v=aL6xwNuNBmg
+
+
+root@uJohn:/var/www/html/Laravel-Vue-Employees-Adminpanel# php artisan passport:install
+Encryption keys generated successfully.
+Personal access client created successfully.
+Client ID: 3
+Client Secret: Wdf9b5tEKVZRvRWxOWvTz7wtb0kXVWwAhwr3llAd
+Password grant client created successfully.
+Client ID: 4
+Client Secret: fk1ZQAj9JYM3PZ1dbhPeAqCDzTzJDGUi7N0fvlqh
+root@uJohn:/var/www/html/Laravel-Vue-Employees-Adminpanel# 
+
+
+
+
+----- API
+// tweeter api tutorials 
+https://packalyst.com/packages/package/thujohn/twitter
+
+2 database configuration files ?
+  - config/database.php
+  - .env 
+
+//explain
+1. Token Authentication: A token identifies a user
+    advantage: easy to use
+    disadvantage: not encrypted
+
+2. Authorization: A user has access to a resource
+
+
+// token Authentication
+1. php artisan make:middleware TokenAuth
+    - create 
+    public function handle($request, Closure $next)
+    {
+        $token = $request->header('X-API-TOKEN');
+        if('test-value' != $token){
+            abort(404, 'Auth Token not found');
+        }
+        return $next($request);
+    }
+2. add to App\Http\Kernel.php
+    'api' => [
+            
+            \App\Http\Middleware\TokenAuth::class
+        ],
+
+3. open insomia click header > 
+  New Header: X-API-TOKEN
+  New Value: test-value
+  - your api will work
+  ex: http://127.0.0.1:8000/api/events
+
+
+// Basic authentiacation  
+1. php artisan make:middleware BasicAuth
+  - public function handle($request, Closure $next)
+    {
+        return Auth::onceBasic() ?: $next($request);
+    }
+2. add to App\Http\Kernel.php
+    'api' => [
+            
+           \App\Http\Middleware\BasicAuth::class        
+        ],
+
+3. open insomia click Basic > Basic Auth >
+  -  add your login: username and password
+  http://127.0.0.1:8000/api/events - it will work
+
+
+ // Oauth step by step
+ 1. php artisan make:auth
+ 2. composer require laravel/passport 

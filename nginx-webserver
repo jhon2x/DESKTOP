@@ -1,0 +1,56 @@
+uninstall nginx
+https://askubuntu.com/questions/235347/what-is-the-best-way-to-uninstall-nginx
+sudo apt-get remove nginx nginx-common # Removes all but config files.
+sudo apt-get purge nginx nginx-common # Removes everything.
+sudo apt-get autoremove # After using any of the above commands, use this in order to remove dependencies used by nginx which are no longer required.
+
+- sudo apt-get install nginx
+
+Install mysql
+- sudo apt-get install mysql-server	
+
+Install php
+-  sudo apt-get install php-fpm php-mysql
+
+configuration, Connect nginx to php 
+- version 7.0: sudo nano /etc/php/7.0/fpm/php.ini
+  version 7.2: gedit /etc/php/7.2/apache2/php.ini
+	search ;cgi.fix_pathinfo=1 anable and set to =0 cgi.fix_pathinfo=0
+
+restart php
+- sudo service php7.2-fpm restart - not found
+  sudo systemctl restart apache2 -working
+
+- sudo vim /etc/nginx/sites-available/default.conf or /etc/nginx/sites-available/default
+
+	- edit add index.php - index index.html index.htm index.nginx-debian.html;
+	index index.php index.html index.htm index.nginx-debian.html;
+	
+	update
+	root /var/www/html;
+	to
+	root /var/www/nginxhtml;	
+
+	remove # sign compare below on your default.conf
+	location ~ \.php$ {
+		include snippets/fastcgi-php.conf;
+	#
+	#	# With php7.0-cgi alone:
+	#	fastcgi_pass 127.0.0.1:9000;
+	#	# With php7.0-fpm:
+		fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+	}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	location ~ /\.ht {
+		deny all;
+	}
+	
+- restart nginx
+	- sudo service nginx restart
+
+- create file to test nginx 
+	vim /var/www/html/info.php
+

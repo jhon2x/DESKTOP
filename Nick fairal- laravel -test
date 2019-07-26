@@ -1,0 +1,41 @@
+Thanks John. As mentioned - I'd be keen for you to partake in the technical assessment. Apologies I thought I may have emailed it to you already. Guidance is you'll need approx. 1 hour to complete, but take as long as you like. Details are posted here. In terms of submitting, feel free to share a link to GitHub/GitLab/bitbucket for review.
+
+
+New Laravel project. Auth pages/tables with login/register to blank dashboard page, with one button labelled test. 
+
+
+Migration with 3 tables:
+
+
+
+User
+
+id, name, other necessary columns for login and auth from Laravel's built in auth process 
+
+
+
+Employee
+
+id, name
+
+
+
+Test
+
+id, user_employee_name
+
+
+
+Seed database with 20 rows in User & Employee tables using Laravel's Factory . Set common password for all users so we can login with any.
+
+
+
+Add Trait to both User and Employee classes that contains the following method:
+
+
+
+addNameToTestTable()
+
+
+
+This method will save the currently logged in user name to test table when the TEST button is hit in dashboard. This can be done via AJAX or via form POST.

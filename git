@@ -1,0 +1,47 @@
+create a new public and private key pair
+- $ ssh-keygen
+	Generating public/private rsa key pair.
+	Enter file in which to save the key (/home/john/.ssh/id_rsa): 
+	Created directory '/home/john/.ssh'.
+	Enter passphrase (empty for no passphrase): 
+	Enter same passphrase again: 
+	Your identification has been saved in /home/john/.ssh/id_rsa.
+	Your public key has been saved in /home/john/.ssh/id_rsa.pub.
+	The key fingerprint is:
+	SHA256:DE6ejEcvv8JX3P+5nNDqz87CBgClKRWvK7LqKRwYqWs john@uJohn
+	The key's randomart image is:
+	+---[RSA 2048]----+
+	|       oo.       |
+	|      ..+        |
+	| .   .+o..       |
+	|o    B.=..       |
+	|o.  . B.S...     |
+	|o.   . o. o.. .  |
+	|.... o ...  oo . |
+	|oE. o + ..   +B o|
+	|++..   o.   oo+@o|
+	+----[SHA256]-----+
+
+Ensure your SSH key is added to the ssh-agent. Start the ssh-agent in the background if it's not already running:
+- john@uJohn:~$ eval "$(ssh-agent -s)"
+	Agent pid 8130
+
+Add you SSH key to the ssh-agent. Notice that you'll need te replace id_rsa in the command with the name of your private key file:
+- john@uJohn:~$ ls -al ~/.ssh
+	total 16
+	drwx------  2 john john 4096 May 11 19:28 .
+	drwxr-xr-x 22 john john 4096 May 11 19:28 ..
+	-rw-------  1 john john 1679 May 11 19:28 id_rsa
+	-rw-r--r--  1 john john  392 May 11 19:28 id_rsa.pub
+
+
+- john@uJohn:~$ ssh-add ~/.ssh/id_rsa
+	Identity added: /home/john/.ssh/id_rsa (/home/john/.ssh/id_rsa)
+STATUS UNFINISHED
+
+
+
+
+
+2. follow this to push your local files to new git repo 
+https://medium.com/@larahelp/connecting-the-laravel-project-on-github-73acf55bbd63

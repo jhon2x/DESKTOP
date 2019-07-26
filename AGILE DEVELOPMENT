@@ -1,0 +1,50 @@
+
+
+The agile approach—which emphasizes continuous delivery and improvement, collaboration, and openness to change—can help professionals enhance both their productivity and the quality of their final products. In this course, learn the fundamentals of agile for software developers, as well as why this approach is uniquely suited for software engineering. Instructor Shashi Shekhar discusses key principles of the agile approach from the perspective of developers. He then reviews scrum—a hugely popular agile framework—and discusses scrum principles, roles, and events. He also looks at how you can complement your scrum implementation with Kanban; takes a deep dive into extreme programming (XP); and shares how you can apply XP to be more effective and efficient in a development team. Throughout this course, Shashi shares practical examples that can help reinforce the concepts covered in this course.
+Topics include:
+Agile principles
+Scrum roles, artifacts, and rules
+Common myths and misconceptions about agile approaches
+Agile software engineering techniques
+Extreme programming (XP) and test-driven development (TDD)
+Kanban for developers
+Limiting work in progress (WIP)
+Scaling the output of agile teams
+
+
+1. The agile approach
+
+- Agile practices enable teams to produce high-quality code and ship software products early and often. Agile uses bottom-up intelligence to fully leverage developers' creativity. Agile also prioritizes a sustainable working pace so that productivity is optimized. It shouldn't be a question of whether or not to become agile, but how to become agile quickly. In this course, we will discuss key principles of the agile approach from the perspective of developers.
+
+We will review some of the most popular agile approaches, such as scrum, kanban, and extreme programming. Hi, I am Shashi Shekhar. I am a developer who has been using agile approaches for nearly two decades. I am excited to show you just how much agile practices can improve your code quality and productivity. So let's begin our exciting journey.
+
+- helps team produce high quality code
+- improve your
+	code
+	quality
+	and productivity
+
+- optimize productivity
+
+3 most popular agile approach
+	- kanban
+	- scrum
+	- extreme programming
+
+
+
+sustainable - continuos
+optimized - improve
+perspective - view,outlook
+
+
+2.
+
+
+
+3. WATERFALL MODEL
+	1. Requirements
+		2. Analysis and Design
+			3. Development
+				4. Testing
+					5. Deployment and maintenance

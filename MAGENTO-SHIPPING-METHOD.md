@@ -1,0 +1,11 @@
+app\
+	code\
+		AcmeWidgets\
+			ProductPromoter\
+        etc\
+          adminhtml\
+            system.xml
+          config.xml
+        Model\
+          Carrier\
+            ExampleShipping.php

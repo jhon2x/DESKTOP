@@ -1,0 +1,73 @@
+// remove postfix
+sudo apt-get purge postfix
+
+// install post fix
+https://www.youtube.com/watch?v=yHUigLSmGOE
+
+sudo apt-get update
+sudo apt-get install postfix mailutils -y
+
+// edit configuration file
+sudo vi /etc/postfix/sasl_passwd
+	type: [smtp.gmail.com]:587 junsayjohn4@gmail.com
+
+//create permission
+sudo chmod 600 /etc/postfix/sasl_passwd
+
+
+// edit the following
+cd /etc/postfix
+root@uJohn:/etc/postfix# sudo vi main.cf 
+
+relayhost = [smtp.gmail.com]:587
+smtp_use_tls = yes
+smtp_sasl_auth_enable = yes
+smtp_sasl_security_options =
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_password
+smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+
+root@uJohn:~# cd /etc/postfix
+root@uJohn:/etc/postfix# postmap sasl_passwd 
+root@uJohn:/etc/postfix# systemctl restart postfix.service
+
+https://www.linode.com/docs/email/postfix/postfix-smtp-debian7/
+echo "body of your email" | mail -s "This is a Subject" -a "From: junsayjohn4@gmail.com" attackerbeater@gmail.com
+
+sendmail attackerbeater@gmail.com From: junsayjohn4@gmail.com Subject: Test mail This is a test email
+
+############################################################### END 
+<?php
+$to = "attackerbeater@gmail.com";
+$subject = "My subject";
+$txt = "Hello world!";
+$headers = "From: junsayjohn4@gmail.com" . "\r\n" .
+"CC: junsayjohn32@gmail.com";
+
+var_dump(mail($to,$subject,$txt,$headers));
+?>
+
+rcpt to: attackerbeater@localhost.com
+############################################################### END 
+
+
+############################################################### postfix setup 100%working
+
+https://devanswers.co/configure-postfix-to-use-gmail-smtp-on-ubuntu-16-04-digitalocean-droplet/
+
+// working url tutorials for postfix 100%
+https://devanswers.co/how-to-get-php-mail-working-on-ubuntu-16-04-digitalocean-droplet/ 
+
+Postfix is now set up with a default configuration.  If you need to make 
+changes, edit
+/etc/postfix/main.cf (and others) as needed.  To view Postfix configuration
+values, see postconf(1).
+
+After modifying main.cf, be sure to run '/etc/init.d/postfix reload
+	
+echo "New Test Email message body" | mail -s "Email test subject" attackerbeater@gmail.com
+echo "New Test Email message body" | mail -s "Email test subject" junsayjohn4@gmail.com
+
+
+rm -rf pub/static/frontend /var/view_preprocessed/pub
+php bin/magento setup:static-content:deploy -f en_US --theme=Magento/overrideluma
+php bin/magento cache:clean

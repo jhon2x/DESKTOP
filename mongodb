@@ -1,0 +1,72 @@
+Complete Node.js Expess MongoDB CRUD
+https://www.youtube.com/watch?v=voDummz1gO0
+
+"Server at 127.0.0.1:27017 reports wire version 2, but this version of libmongoc requires at least 3 (MongoDB 3.0)"
+https://stackoverflow.com/questions/52669717/mongodb-exception-server-reports-wire-version-0-but-version-of-libmongoc-requi
+https://askubuntu.com/questions/819797/is-is-possible-to-install-phpize-for-php7-ubuntu16-04
+
+How To Install MongoDB on Ubuntu 16.04 LTS / Ubuntu 18.04 LTS
+https://www.youtube.com/watch?v=WH5GgHaEy7E
+	- checks if monggo db is installed already - sudo apt-cache policy mongodb
+	- sudo apt-get install mongodb
+	- sudo apt-get update
+	- sudo service mongodb start
+
+	- type mongo : to use mongo is like mysql -u root -p
+	- show dbs;  : show databases;
+ 	- use mydb;  : to create and switch to database you created, 
+				- create database mydb; 
+				- use mydb;
+	- db.mycol.insert({"name" : "John"}); 	: insert into mydb(name) values('John')
+	- show collections; 			: to show collections 'mycol' from db.mycol you created	equivalent to table 'mycol'
+	- db.mycol.find(); 			: select * from mydb;
+	- db.mycol.find().pretty()		: select with pretty format 
+	- { "_id" : ObjectId("5cd6c591e77d84bd02d24f1c"), "name" : "John" } : (Default key _id provided by mongodb itself)
+	- db.mydb.help();			: Show all functions that can be used with the database:
+		db.mydb.find().help() - show DBCursor help
+		db.mydb.count()
+		db.mydb.copyTo(newColl) - duplicates collection by copying all documents to newColl; no indexes are copied.
+		db.mydb.convertToCapped(maxBytes) - calls {convertToCapped:'mydb', size:maxBytes}} command
+		db.mydb.dataSize()
+		db.mydb.distinct( key ) - e.g. db.mydb.distinct( 'x' )
+		db.mydb.drop() drop the collection
+		db.mydb.dropIndex(index) - e.g. db.mydb.dropIndex( "indexName" ) or db.mydb.dropIndex( { "indexKey" : 1 } )
+		db.mydb.dropIndexes()
+		db.mydb.ensureIndex(keypattern[,options]) - options is an object with these possible fields: name, unique, dropDups
+		db.mydb.reIndex()
+		db.mydb.find([query],[fields]) - query is an optional query filter. fields is optional set of fields to return.
+					                      e.g. db.mydb.find( {x:77} , {name:1, x:1} )
+		db.mydb.find(...).count()
+		db.mydb.find(...).limit(n)
+		db.mydb.find(...).skip(n)
+		db.mydb.find(...).sort(...)
+		db.mydb.findOne([query])
+		db.mydb.findAndModify( { update : ... , remove : bool [, query: {}, sort: {}, 'new': false] } )
+		db.mydb.getDB() get DB object associated with collection
+		db.mydb.getPlanCache() get query plan cache associated with collection
+		db.mydb.getIndexes()
+		db.mydb.group( { key : ..., initial: ..., reduce : ...[, cond: ...] } )
+		db.mydb.insert(obj)
+		db.mydb.mapReduce( mapFunction , reduceFunction , <optional params> )
+		db.mydb.aggregate( [pipeline], <optional params> ) - performs an aggregation on a collection; returns a cursor
+		db.mydb.remove(query)
+		db.mydb.renameCollection( newName , <dropTarget> ) renames the collection.
+		db.mydb.runCommand( name , <options> ) runs a db command with the given name where the first param is the collection name
+		db.mydb.save(obj)
+		db.mydb.stats()
+		db.mydb.storageSize() - includes free space allocated to this collection
+		db.mydb.totalIndexSize() - size in bytes of all the indexes
+		db.mydb.totalSize() - storage allocated for all data and indexes
+		db.mydb.update(query, object[, upsert_bool, multi_bool]) - instead of two flags, you can pass an object with fields: upsert, multi
+		db.mydb.validate( <full> ) - SLOW
+		db.mydb.getShardVersion() - only for use with sharding
+		db.mydb.getShardDistribution() - prints statistics about data distribution in the cluster
+		db.mydb.getSplitKeysForChunks( <maxChunkSize> ) - calculates split points over all chunks and returns splitter function
+		db.mydb.getWriteConcern() - returns the write concern used for any operations on this collection, inherited from server/db if set
+		db.mydb.setWriteConcern( <write concern doc> ) - sets the write concern for writes to the collection
+		db.mydb.unsetWriteConcern( <write concern doc> ) - unsets the write concern for writes to the collection
+
+	-  db	: To check your currently selected database, use the command db
+	- db.dropDatabase()	:  command is used to drop a existing database.
+
+

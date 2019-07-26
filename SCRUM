@@ -1,0 +1,36 @@
+
+https://www.atlassian.com/
+1. Jira Software
+	Project and issue tracking
+
+	steps
+	- apache2ctl configtest - checks if where is the error
+	- create account
+	// Claim your site
+	attackerbeater.atlassian.net
+	// Full name
+	attacker beater
+	// Email
+	attackerbeater@gmail.com
+	// Password
+	Internal1234_jirra
+
+	- create project
+	- create backlog or import from csv
+
+2. Confluence
+	Document collaboration
+
+
+3 SCRUM ROLES ?
+1. Product owner
+	- defines what will be built
+	- owns product backlog
+
+2. Scrum master
+3. Development Team Member
+	- I-shaped people (high specialized skills in one area)
+	- T-shaped people (in-depth knowledge in one area and broad general knowledge)
+
+note:
+	the development should be self organized and cross-functional

@@ -1,0 +1,62 @@
+https://www.youtube.com/watch?v=JGwRIbWWqjE
+- ko.observable
+- ko.observableArray
+- ko.computed
+- ko.pureComputed
+- data-bind="attr: {'id': getCode()}, value: getCode()"
+
+<!-- This is a *view* - HTML markup that defines the appearance of your UI -->
+<h1 data-bind="text: output">Heading</h1>
+<input type="text" data-bind="value: message, valueUpdate: 'input'" maxlength="10" />
+<input type="submit" data-bind="click: method1"/>
+<p><span data-bind="text: charactersRemainings"></span> Character remainings</p>
+<ul data-bind="foreach: outputArray">
+    <li data-bind="text: $data"></li>
+</ul>
+
+// This is a simple *viewmodel* - JavaScript that defines the data and behavior of your UI
+var vm = {
+   //output: ko.observable(),
+   //utputArray: ko.observableArray([]),
+   //method1: function(){
+     // this.outputArray.push(this.output);
+    //}
+
+
+};
+
+
+function contactViewModel(){
+    self.message = ko.observable('');
+    self.charactersRemainings = ko.computed(function(){
+        return 60 - self.message().length;
+    });
+}
+
+ko.applyBindings(new contactViewModel());
+
+
+
+
+vm.output('Test');
+vm.outputArray.push('value1');
+vm.outputArray.push('value2');
+vm.outputArray.push('value3');
+vm.outputArray.push('value4');
+//.applyBindings(vm);
+
+
+// 3
+
+// Here's my data model
+var ViewModel = function(first, last) {
+    this.firstName = ko.observable(first);
+    this.lastName = ko.observable(last);
+
+    this.fullName = ko.computed(function() {
+        // Knockout tracks dependencies automatically. It knows that fullName depends on firstName and lastName, because these get called when evaluating fullName.
+        return this.firstName() + " " + this.lastName();
+    }, this);
+};
+
+ko.applyBindings(new ViewModel("Planet", "Earth")); // This makes Knockout get to work
